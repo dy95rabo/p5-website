@@ -1,142 +1,115 @@
-let r,g,b = 0;
+// let r,g,b = 0;
 
-const maxRadius = 100;
-const minRadius = 30;
-const bubbleSpeed = -4;
+const bubbleMap = new Map();
 
-// let bubbles = []
+const maxRadius= 100
+const minRadius = 30
+const bubbleSpeed = -4
+const bubbleAcceleration = 0.3
+const xSpeedMax = 4
+const bubbleSpawnChance = 0.06
 
 
+class Bubble {
 
-const bubbleMap = new Map()
 
-function generateId(){
-        let newID = 0;
-        while(bubbleMap.has(newID)){
-            newID++;
-        }
-        return newID
-}
+  static generateId() {
+    let newID = 0;
+    while (bubbleMap.has(newID)) {
+      newID++;
+    }
+    return newID;
+  }
 
-function updateAllBubbles(){
-        // console.log("is working")
-        for (const bubble of bubbleMap.values()) {
-        // console.log("in loop")
+  static updateAllBubbles() {
+    for (const bubble of bubbleMap.values()) {
+      bubble.update();
+      bubble.draw();
+    }
+  }
 
-            bubble.update()
-            bubble.draw()
-        }
+  static checkClick(mouseX, mouseY) {
+    for (const bubble of bubbleMap.values()) {
+      if (bubble.isInside(mouseX, mouseY)) {
+        bubble.pop();
+      }
+    }
+  }
+
+  static tryGenerateBubble(){
+    if (random() <= bubbleSpawnChance) {
+        new Bubble();
+      }
+  }
+
+  constructor() {
+    this.rad = random(minRadius, maxRadius);
+    this.x = random(0, width);
+    this.y = height + this.rad;
+
+    this.r = random(255);
+    this.g = random(255);
+    this.b = random(255);
+
+    this.vX = 0;
+    this.vY = bubbleSpeed;
+
+    this.id = Bubble.generateId();
+    bubbleMap.set(this.id, this);
+  }
+
+  draw() {
+    fill(this.r, this.g, this.b);
+    strokeWeight(0);
+    circle(this.x, this.y, this.rad);
+  }
+
+  isInside(x, y) {
+    return (
+      (x - this.x) * (x - this.x) + (y - this.y) * (y - this.y) <=
+      this.rad * this.rad
+    );
+  }
+
+  update() {
+    this.vX += random(-bubbleAcceleration, bubbleAcceleration);
+
+    if (this.vX > xSpeedMax) {
+      this.vX = xSpeedMax;
+    }
+    if (-this.vX > xSpeedMax) {
+      this.vX = -xSpeedMax;
     }
 
-function checkClick(mouseX,mouseY){
-        for (const bubble of bubbleMap.values()) {
-            if(bubble.isInside(mouseX,mouseY)){
-                bubble.pop()
-            }
-        }
+    this.x += this.vX;
+    this.y += this.vY;
+    if (this.isOffscreen()) {
+      this.pop();
     }
+  }
 
-class Bubble{
+  pop() {
+    bubbleMap.delete(this.id);
+  }
 
-    
-    constructor(){
-        this.rad = random(minRadius,maxRadius)
-        this.x = random(0,width)
-        this.startX = this.x
-        this.y = height + this.rad
-        
-        this.r = random(255)
-        this.g = random(255)
-        this.b = random(255)
-    
-        this.vX = 0
-        this.vY = bubbleSpeed
-
-        this.noiseOffset = random(100)
-        this.noiseScale = random(0.001)
-        this.noiseLevel = (120-this.rad) * 40
-
-        this.isVisible = true
-
-        this.id = generateId()
-        bubbleMap.set(this.id,this)
-    }
-
-    draw(){
-        fill(this.r,this.g,this.b, this.isVisible?255:0)
-        stroke(0)
-        circle(this.x,this.y,this.rad)
-    }
-
-    isInside(x,y){
-        return ((x-this.x)*(x-this.x)+(y-this.y)*(y-this.y))<=(this.rad*this.rad)
-    }
-
-    update(){
-        // this.x = this.startX + this.noiseLevel * (noise(this.noiseScale * frameCount + this.noiseOffset) - 2*noise(0)/3)
-        this.vX += random(-1,1);
-        this.x += this.vX
-        this.y += this.vY
-        if(this.isOffscreen()){
-            this.pop()
-        }
-    }
-
-    pop(){
-        // this.isVisible = false
-        bubbleMap.delete(this.id)
-
-    }
-
-    isOffscreen(){
-        return this.y+this.rad<0
-    }
+  isOffscreen() {
+    return this.y + this.rad < 0;
+  }
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(0,0,0)
+  background(0, 0, 0);
 }
 
 function draw() {
-    frameRate(60)
-    background(0)
+  frameRate(60);
+  background(0);
 
-    // let deleteBubbles = []
-    if(random(10)>=9){
-        // bubbles.push(new Bubble())
-       new Bubble()
-    }
-
-    updateAllBubbles()
-
-
-  
-    // bubbles.forEach((bubble,index) =>{
-    //     bubble.draw();
-    //     bubble.update()
-    //     if(bubble.isOffscreen()){
-    //         deleteBubbles.push(index)
-    //     }
-    // });
-
-    // while (deleteBubbles.length>0) {
-    //     const deleted = bubbles.splice(deleteBubbles.pop(),1)
-
-    //     // console.log(deleted[0])
-    // }
- 
+  Bubble.tryGenerateBubble()
+  Bubble.updateAllBubbles();
 }
 
-function mousePressed(){
-
-    checkClick(mouseX,mouseY);
-
-
-    // bubbles.forEach(bubble =>{
-    //     if(bubble.isInside(mouseX,mouseY)){
-    //         bubble.pop()
-    //     }
-    // });
+function mousePressed() {
+    Bubble.checkClick(mouseX, mouseY);
 }
-
