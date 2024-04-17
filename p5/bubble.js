@@ -4,9 +4,9 @@ const bubbleMap = new Map();
 
 const maxRadius= 100
 const minRadius = 30
-const bubbleSpeed = -4
+const bubbleSpeed = 4
 const bubbleAcceleration = 0.3
-const xSpeedMax = 4
+// const xSpeedMax = 4
 const bubbleSpawnChance = 0.06
 
 
@@ -74,15 +74,15 @@ class Bubble {
   update() {
     this.vX += random(-bubbleAcceleration, bubbleAcceleration);
 
-    if (this.vX > xSpeedMax) {
-      this.vX = xSpeedMax;
+    if (this.vX > bubbleSpeed) {
+      this.vX = bubbleSpeed;
     }
-    if (-this.vX > xSpeedMax) {
-      this.vX = -xSpeedMax;
+    if (-this.vX > bubbleSpeed) {
+      this.vX = -bubbleSpeed;
     }
 
     this.x += this.vX;
-    this.y += this.vY;
+    this.y -= this.vY;
     if (this.isOffscreen()) {
       this.pop();
     }

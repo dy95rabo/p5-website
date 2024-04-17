@@ -6,8 +6,8 @@ let greenImg;
 let invertImg;
 let grayImg;
 
-const translationFactor = 50;
-const alpha = 255;
+const translationFactor = 10;
+const alpha = 50;
 
 
 const images = []
@@ -100,25 +100,25 @@ function setup() {
 }
 
 function draw() {
-  // image(img,0,0,width,height);
+//   image(invertImg,0,0,width,height);
 
 
   //füge eine translation jeweils um 120 grad verschoben zur vorhärigen mit einer amplitude relativ zur mausposition ein
 
-  // push()
-  // translate(translationFactor * Math.cos(0), translationFactor * Math.sin(0))
-  // image(redImg,0,0,width,height)
-  // pop()
+//   push()
+//   translate(translationFactor * Math.cos(0), translationFactor * Math.sin(0))
+//   image(redImg,0,0,width,height)
+//   pop()
 
-  // push()
-  // translate(translationFactor * Math.cos(2/3*Math.PI), translationFactor * Math.sin(2/3*Math.PI))
-  // pop()
-  // image(blueImg,0,0,width,height)
+//   push()
+//   translate(translationFactor * Math.cos(2/3*Math.PI), translationFactor * Math.sin(2/3*Math.PI))
+//   image(blueImg,0,0,width,height)
+//   pop()
 
-  // push()
-  // translate(translationFactor * Math.cos(4/3*Math.PI), translationFactor * Math.sin(4/3*Math.PI))
-  // pop()
-  // image(greenImg,0,0,width,height)
+//   push()
+//   translate(translationFactor * Math.cos(4/3*Math.PI), translationFactor * Math.sin(4/3*Math.PI))
+//   image(greenImg,0,0,width,height)
+//   pop()
 
 
   image(images[currentImage], 0, 0, width, height);
