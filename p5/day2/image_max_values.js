@@ -7,7 +7,7 @@ let img;
 
 function preload() {
   img = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
 
 

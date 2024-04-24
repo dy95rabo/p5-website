@@ -22,25 +22,25 @@ function swapImage() {
 
 function preload() {
   img = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
 
   //I tried cloning the object but thats really difficult to do in javascript
   redImg = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
   blueImg = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
   greenImg = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
 
   invertImg = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
   grayImg = loadImage(
-    "../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+    "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
   );
 
   images.push(img);

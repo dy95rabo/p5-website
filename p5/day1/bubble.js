@@ -1,6 +1,6 @@
 // let r,g,b = 0;
 
-const bubbleMap = new Map();
+const circleMap = new Map();
 
 const maxRadius= 100
 const minRadius = 30
@@ -15,21 +15,21 @@ class Bubble {
 
   static generateId() {
     let newID = 0;
-    while (bubbleMap.has(newID)) {
+    while (circleMap.has(newID)) {
       newID++;
     }
     return newID;
   }
 
   static updateAllBubbles() {
-    for (const bubble of bubbleMap.values()) {
+    for (const bubble of circleMap.values()) {
       bubble.update();
       bubble.draw();
     }
   }
 
   static checkClick(mouseX, mouseY) {
-    for (const bubble of bubbleMap.values()) {
+    for (const bubble of circleMap.values()) {
       if (bubble.isInside(mouseX, mouseY)) {
         bubble.pop();
       }
@@ -55,7 +55,7 @@ class Bubble {
     this.vY = bubbleSpeed;
 
     this.id = Bubble.generateId();
-    bubbleMap.set(this.id, this);
+    circleMap.set(this.id, this);
   }
 
   draw() {
@@ -65,6 +65,7 @@ class Bubble {
   }
 
   isInside(x, y) {
+    return dist(x,y,this.x,this.y)<=this.rad
     return (
       (x - this.x) * (x - this.x) + (y - this.y) * (y - this.y) <=
       this.rad * this.rad
@@ -89,7 +90,7 @@ class Bubble {
   }
 
   pop() {
-    bubbleMap.delete(this.id);
+    circleMap.delete(this.id);
   }
 
   isOffscreen() {
