@@ -36,10 +36,10 @@ class Bubble {
     // }
     // 
   // }
-  static onClick(mouseX, mouseY, circleFunction) {
+  static onClick(mouseX, mouseY) {
     for (const circle of BUBBLE_MAP.values()) {
       if (circle.isInside(mouseX, mouseY)) {
-        circleFunction.bind(circle);
+        circle.pop();
       }
     }
   }
@@ -116,5 +116,5 @@ function draw() {
 }
 
 function mousePressed() {
-    Bubble.onClick(mouseX, mouseY, Bubble.pop);
+    Bubble.onClick(mouseX, mouseY);
 }
