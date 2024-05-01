@@ -1,6 +1,14 @@
 {
-    "recommendations": [
-        "zsakowitz.p5-resources",
-        "ritwickdey.liveserver"
-    ]
+  "recommendations": [
+    "zsakowitz.p5-resources",
+    "ritwickdey.liveserver",
+    "Vue.volar",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",   
+    "vue.vscode-typescript-vue-plugin",
+    "hollowtree.vue-snippets",
+    "sdras.vue-vscode-snippets",
+    "shenjiaolong.vue-helper",
+    "sdras.vue-vscode-extensionpack"
+  ]
 }
