@@ -1,0 +1,16 @@
+{
+    "extensions.closeExtensionDetailsOnViewChange": true,
+    "task.allowAutomaticTasks": "on",
+    "cSpell.language": "en, de-de",
+    "files.autoSave": "onFocusChange",
+    "workbench.iconTheme":  "vscode-icons",
+    "vsicons.dontShowNewVersionMessage":true,
+    "editor.minimap.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "cSpell.words": [
+        "noice",
+        "pinia",
+        "todos",
+        "Todos"
+    ]
+}

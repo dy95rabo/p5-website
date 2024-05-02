@@ -1,0 +1,138 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "install extensions",
+      "type": "shell",
+      "hide": true,
+      "isBackground": false,
+      "presentation": {
+        "reveal": "never",
+        "revealProblems": "onProblem"
+      },
+      "command": [
+        "code --install-extension streetsidesoftware.code-spell-checker",
+        "code --install-extension usernamehw.errorlens",
+        "code --install-extension tyriar.lorem-ipsum",
+        "code --install-extension balduinlandolt.surround-with-tag",
+        "code --install-extension albert.tabout",
+        "code --install-extension vscode-icons-team.vscode-icons",
+        "code --install-extension aaron-bond.better-comments",
+        "code --install-extension firefox-devtools.vscode-firefox-debug",
+        "code --install-extension Zignd.html-css-class-completion",
+        "code --install-extension Vue.volar",
+        "code --install-extension sdras.vue-vscode-extensionpack",
+        "code --uninstall-extension ms-azuretools.vscode-docker",
+        "code --uninstall-extension GitHub.copilot",
+      ]
+    },
+    {
+      "label": "install all extensions",
+      "isBackground": false,
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "type": "shell",
+      "command": [
+        "code --install-extension streetsidesoftware.code-spell-checker-german"
+      ],
+      "dependsOn": "install extensions",
+      "presentation": {
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+
+    
+    {
+      "label": "npm install",
+      "isBackground": false,
+      "runOptions": {
+        "runOn": "folderOpen",
+        
+      },
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "clear": true,
+        "close": true
+      },
+      "options": {
+        // ! Hier eventuell den Ordner des Projekts anpassen
+        "cwd": "${workspaceFolder}"
+      },
+      "type": "npm",
+      "script": "install",
+    },
+    {
+      "label": "npm install vue-bootstrap-next",
+      "isBackground": false,
+      "dependsOn": "npm install",
+      "runOptions": {
+        "runOn": "folderOpen",
+        
+      },
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "clear": false,
+        "close": false
+      },
+      "options": {
+        // ! Hier eventuell den Ordner des Projekts anpassen
+        "cwd": "${workspaceFolder}"
+      },
+      "type": "shell",
+      "command":["npm i bootstrap bootstrap-vue-next"]
+
+    },
+    {
+      "label": "npm i unplugin-vue-components",
+      "isBackground": false,
+      "dependsOn": "npm install vue-bootstrap-next",
+      "runOptions": {
+        "runOn": "folderOpen",
+        
+      },
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "clear": false,
+        "close": false
+      },
+      "options": {
+        // ! Hier eventuell den Ordner des Projekts anpassen
+        "cwd": "${workspaceFolder}"
+      },
+      "type": "shell",
+      "command":["npm i unplugin-vue-components -D"]
+
+    },
+    {
+      "label": "npm run dev",
+      "isBackground": false,
+      "dependsOn": [
+        "npm install",
+        "npm install vue-bootstrap-next",
+        "npm i unplugin-vue-components",
+      ],
+      "runOptions": {
+        "runOn": "folderOpen",
+        
+      },
+      "options": {
+        // ! Hier eventuell den Ordner des Projekts anpassen
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "clear": false,
+        "close": false
+      },
+      "type": "npm",
+      "script": "dev",
+    },
+  ]
+}

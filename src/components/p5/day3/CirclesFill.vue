@@ -1,124 +1,168 @@
 <script setup>
 const sketch = (p5) => {
-const CIRCLE_MAP = new Map();
+  const CIRCLE_ARR = [];
+  const POINT_ARR = [];
+  const POINT_SIZE = 15;
+  const MIN_RADIUS = 20;
+  const MAX_RADIUS = 200;
 
-const MAX_NUMBER_OF_CIRCLES = 300;
-const MAX_CIRCLE_RADIUS = 150;
-
-const SPAWN_RATE = 5;
-let spawnCounter = SPAWN_RATE;
-
-function preload() {}
-
-class Circle {
-  static generateId() {
-    let newID = 0;
-    while (CIRCLE_MAP.has(newID)) {
-      newID++;
+  // ####################      POINT     #######################################
+  class Point {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
     }
-    return newID;
-  }
 
-  static updateAllCircles() {
-    for (const circle of CIRCLE_MAP.values()) {
-      bubble.update();
-      bubble.draw();
+    static createRandom() {
+      return new Point(p5.random(p5.width), p5.random(p5.height));
     }
-  }
 
-  static checkClick(mouseX, mouseY, circleFunction = pop) {
-    for (const circle of bubbleMap.values()) {
-      if (circle.isInside(mouseX, mouseY)) {
-        circle.circleFunction();
+    calcDist(point) {
+      return p5.dist(this.x, this.y, point.x, point.y);
+    }
+
+    draw() {
+      p5.push();
+      Color.createRandom().setStroke();
+      p5.strokeWeight(POINT_SIZE);
+      p5.point(this.x, this.y);
+      p5.pop();
+    }
+
+    drawLine(point) {
+      p5.push();
+      Color.createRandom().setStroke();
+      p5.strokeWeight(2);
+      p5.line(this.x, this.y, point.x, point.y);
+      p5.pop();
+    }
+
+    calcWallDist() {
+      let minX = p5.min(this.x, p5.width - this.x);
+      let minY = p5.min(this.y, p5.height - this.y);
+
+      return p5.min(minX, minY);
+    }
+
+    static drawAll() {
+      POINT_ARR.forEach((p) => {
+        p.draw();
+      });
+    }
+    calcMinDistance() {
+      let minDist = this.calcWallDist();
+      for (const c of CIRCLE_ARR) {
+        let dist = c.calcDist(this);
+        if (dist < minDist) {
+          minDist = dist;
+        }
       }
+      return minDist;
+    }
+  }
+  // ########################    COLOR     #####################################
+  class Color {
+    constructor(r, g, b) {
+      this.r = r;
+      this.g = g;
+      this.b = b;
+    }
+
+    static createRandom() {
+      return new Color(p5.random(255), p5.random(255), p5.random(255));
+    }
+
+    setStroke() {
+      p5.stroke(this.r, this.g, this.b);
+    }
+
+    setFill() {
+      p5.fill(this.r, this.g, this.b);
+    }
+
+    static resetStroke() {
+      p5.stroke(0);
+    }
+    static resetFill() {
+      p5.stroke(255, 255, 255);
     }
   }
 
-  static tryGenerateCircle() {
-    if (CIRCLE_MAP.size < MAX_NUMBER_OF_CIRCLES) {
-      return;
+  // ###########################     CIRCLE     ###################################
+
+  class Circle {
+    constructor(center, radius, color = Color.createRandom()) {
+      this.center = center;
+      this.radius = radius;
+      this.color = color;
     }
-    if (spawnCounter > 0) {
-      spawnCounter--;
-      return;
+
+    draw() {
+      p5.push();
+      p5.strokeWeight(0);
+      this.color.setFill();
+      p5.circle(this.center.x, this.center.y, this.radius * 2);
+      p5.pop();
     }
-    spawnCounter = SPAWN_RATE;
-    new Circle();
+
+    static createRandom() {
+      let centerPoint = Point.createRandom();
+      let distanceToWall = centerPoint.calcWallDist();
+      return new Circle(centerPoint, p5.random(distanceToWall));
+    }
+
+    static drawAll() {
+      CIRCLE_ARR.forEach((c) => {
+        c.draw();
+      });
+    }
+
+    static tryToCreateNewCircle(maxNumberOfCircles = Number.MAX_SAFE_INTEGER) {
+      if (CIRCLE_ARR.length >= maxNumberOfCircles) {
+        return;
+      }
+      let p;
+      let minDist;
+      do {
+        p = Point.createRandom();
+        minDist = p.calcMinDistance();
+      } while (minDist < MIN_RADIUS);
+
+      CIRCLE_ARR.push(new Circle(p, p5.random(MIN_RADIUS, p5.min(minDist, MAX_RADIUS))));
+    }
+
+    calcDist(other) {
+      if (other instanceof Point)
+        return this.center.calcDist(other) - this.radius;
+      if (other instanceof Circle)
+        return this.center.calcDist(other.center) - this.radius - other.radius;
+      return NaN;
+    }
+
+    checkForOverlappingCircles() {
+      for (const c of CIRCLE_ARR) {
+        let dist = this.calcDist(c);
+        if (dist < 0) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 
-  constructor() {
-    this.x = x;
-    this.y = y;
-    this.rad = rad;
+  // #######################       SETUP      ################################
 
-    this.r = random(255);
-    this.g = random(255);
-    this.b = random(255);
-
-    this.id = Circle.generateId();
-    CIRCLE_MAP.set(this.id, this);
+  p5.setup=()=> {
+    p5.createCanvas(windowWidth, windowHeight);
+    p5.background(220);
+    p5.frameRate(120);
   }
 
-  draw() {
-    fill(this.r, this.g, this.b);
-    strokeWeight(0);
-    circle(this.x, this.y, this.rad);
+  // #########################     DRAW       #####################################
+  p5. draw=()=> {
+    Circle.tryToCreateNewCircle(150);
+    Circle.drawAll();
   }
-
-  isInside(x, y) {
-    return dist(x, y, this.x, this.y) <= this.rad;
-  }
-
-  update() {
-    // this.vX += random(-bubbleAcceleration, bubbleAcceleration);
-    // if (this.vX > bubbleSpeed) {
-    //   this.vX = bubbleSpeed;
-    // }
-    // if (-this.vX > bubbleSpeed) {
-    //   this.vX = -bubbleSpeed;
-    // }
-    // this.x += this.vX;
-    // this.y -= this.vY;
-    // if (this.isOffscreen()) {
-    //   this.pop();
-    // }
-  }
-
-  pop() {
-    CIRCLE_MAP.delete(this.id);
-  }
-
-  doesOverlap(circle) {
-    return dist(circle.x, circle.y, this.x, this.y) < circle.rad + this.rad;
-  }
-
-  growBy(radius) {
-    this.rad += radius;
-  }
-}
-
-function setup() {
-  //   createCanvas(400, 400);
-  createCanvas(windowWidth, windowHeight);
-
-  background(255, 0, 0);
-
-  //   point(220,240);
-  //   line(0,0,400,400);
-
-  //   stroke("black")
-  //   strokeWeight(3)
-
-  //   triangle(10,200,30,400,50,60)
-  //   square(30,50,20)
-  //   rect(300,200,20,60,5)
-  //   circle(60,300,50)
-  //   strokeWeight(10);
-  //   background(0);
-  frameRate(30);
-}
-
-function draw() {}
 };
 </script>
 
