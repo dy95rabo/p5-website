@@ -110,5 +110,5 @@ const sketch = (p5) => {
 </script>
 
 <template>
-  <P5 :sketch="sketch" />
+  <P5 :sketch="sketch" class="h-100 d-inline-block" />
 </template>

@@ -1,10 +1,46 @@
 <script setup>
 const sketch = (p5) => {
+  // ####################      CONSTANTS     #######################################
   const CIRCLE_ARR = [];
   const POINT_ARR = [];
   const POINT_SIZE = 15;
-  const MIN_RADIUS = 20;
-  const MAX_RADIUS = 200;
+  const MIN_RADIUS = 1;
+  const MAX_RADIUS = 300;
+  const MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE = 5;
+  const RANDOMIZE_RADIUS = false;
+  let autogenerate = false;
+
+  // ########################    COLOR     #####################################
+  class Color {
+    constructor(r, g, b) {
+      this.r = r;
+      this.g = g;
+      this.b = b;
+    }
+
+    static createRandom() {
+      return new Color(p5.random(255), p5.random(255), p5.random(255));
+    }
+
+    setBackground() {
+      p5.background(this.r, this.g, this.b);
+    }
+
+    setStroke() {
+      p5.stroke(this.r, this.g, this.b);
+    }
+
+    setFill() {
+      p5.fill(this.r, this.g, this.b);
+    }
+
+    static resetStroke() {
+      p5.stroke(0);
+    }
+    static resetFill() {
+      p5.stroke(255, 255, 255);
+    }
+  }
 
   // ####################      POINT     #######################################
   class Point {
@@ -49,6 +85,11 @@ const sketch = (p5) => {
         p.draw();
       });
     }
+    /**
+      calculates the minimal distance to all other circles and walls
+       * @returns minimal distance
+       *  
+       * */
     calcMinDistance() {
       let minDist = this.calcWallDist();
       for (const c of CIRCLE_ARR) {
@@ -60,33 +101,6 @@ const sketch = (p5) => {
       return minDist;
     }
   }
-  // ########################    COLOR     #####################################
-  class Color {
-    constructor(r, g, b) {
-      this.r = r;
-      this.g = g;
-      this.b = b;
-    }
-
-    static createRandom() {
-      return new Color(p5.random(255), p5.random(255), p5.random(255));
-    }
-
-    setStroke() {
-      p5.stroke(this.r, this.g, this.b);
-    }
-
-    setFill() {
-      p5.fill(this.r, this.g, this.b);
-    }
-
-    static resetStroke() {
-      p5.stroke(0);
-    }
-    static resetFill() {
-      p5.stroke(255, 255, 255);
-    }
-  }
 
   // ###########################     CIRCLE     ###################################
 
@@ -95,6 +109,18 @@ const sketch = (p5) => {
       this.center = center;
       this.radius = radius;
       this.color = color;
+    }
+
+    static removeLast(n = 1) {
+      for (let i = 0; i < n; i++) {
+        CIRCLE_ARR.pop();
+      }
+    }
+
+    static generate(n = 1) {
+      for (let i = 0; i < n; i++) {
+        Circle.tryToCreateNewCircle();
+      }
     }
 
     draw() {
@@ -123,12 +149,19 @@ const sketch = (p5) => {
       }
       let p;
       let minDist;
+      let numberOfTries = 0;
       do {
+        if(numberOfTries >= MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE){
+          return
+        }
         p = Point.createRandom();
         minDist = p.calcMinDistance();
+        numberOfTries++;
       } while (minDist < MIN_RADIUS);
 
-      CIRCLE_ARR.push(new Circle(p, p5.random(MIN_RADIUS, p5.min(minDist, MAX_RADIUS))));
+        CIRCLE_ARR.push(
+          new Circle(p, RANDOMIZE_RADIUS?p5.random(MIN_RADIUS, p5.min(minDist, MAX_RADIUS)):minDist)
+        );
     }
 
     calcDist(other) {
@@ -151,18 +184,39 @@ const sketch = (p5) => {
   }
 
   // #######################       SETUP      ################################
-
-  p5.setup=()=> {
-    p5.createCanvas(windowWidth, windowHeight);
-    p5.background(220);
+  const BACKGROUND_COLOR = new Color(100, 100, 100);
+  p5.setup = () => {
+    p5.createCanvas(p5.windowWidth, p5.windowHeight);
+    BACKGROUND_COLOR.setBackground();
     p5.frameRate(120);
-  }
+  };
 
   // #########################     DRAW       #####################################
-  p5. draw=()=> {
-    Circle.tryToCreateNewCircle(150);
-    Circle.drawAll();
-  }
+  p5.draw = () => {
+    if (autogenerate) {
+      Circle.tryToCreateNewCircle(600);
+      Circle.drawAll();
+    }
+  };
+
+  // #########################     MOUSE PRESSED       #####################################
+  p5.mousePressed = () => {
+    // autogenerate = !autogenerate;
+  };
+
+  // #########################     MOUSE WHEEL       #####################################
+  p5.mouseWheel = (event) => {
+    if (!autogenerate) {
+      p5.clear();
+      BACKGROUND_COLOR.setBackground();
+      if (event.delta < 0) {
+        Circle.generate(5);
+      } else {
+        Circle.removeLast(5);
+      }
+      Circle.drawAll();
+    }
+  };
 };
 </script>
 

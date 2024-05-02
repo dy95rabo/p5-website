@@ -18,19 +18,19 @@ export default {
           routePrefix: "/day1",
           subRoutes: [
             {
-              title: "Exercise 1",
+              title: "Random lines",
               path: "/exercise1",
             },
             {
-              title: "Exercise 2",
+              title: "Floating bubbles",
               path: "/exercise2",
             },
             {
-              title: "Exercise 3",
+              title: "Random maze",
               path: "/exercise3",
             },
             {
-              title: "Exercise 4",
+              title: "Parallax squares",
               path: "/exercise4",
             },
           ],
@@ -41,11 +41,11 @@ export default {
 
           subRoutes: [
             {
-              title: "Exercise 1",
+              title: "Different color values",
               path: "/exercise1",
             },
             {
-              title: "Exercise 2",
+              title: "Max color values",
               path: "/exercise2",
             },
           ],
@@ -55,7 +55,7 @@ export default {
           routePrefix: "/day3",
           subRoutes: [
             {
-              title: "Exercise 1",
+              title: "Circles",
               path: "/exercise1",
             },
           ],
@@ -65,7 +65,7 @@ export default {
           routePrefix: "/day4",
           subRoutes: [
             {
-              title: "Exercise 1",
+              title: "Fractal",
               path: "/exercise1",
             },
           ],
@@ -96,14 +96,9 @@ export default {
           <!-- ! ###########   ADD ITEMS HERE ################## -->
           <template v-for="(route, index) of routes" :key="index">
             <NavDropDown
-              v-if="route.subRoutes.length > 1"
               :route="route"
             ></NavDropDown>
-            <NavItem
-              v-else
-              :route-prefix="route.routePrefix"
-              :route="route.subRoutes[0]"
-            ></NavItem>
+
           </template>
         </ul>
       </div>
