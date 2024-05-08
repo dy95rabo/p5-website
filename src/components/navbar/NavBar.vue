@@ -70,6 +70,16 @@ export default {
             },
           ],
         },
+        {
+          headline: "Day 5",
+          routePrefix: "/day5",
+          subRoutes: [
+            {
+              title: "Word cloud",
+              path: "/exercise1",
+            },
+          ],
+        },
       ],
     };
   },
@@ -79,7 +89,7 @@ export default {
 <template>
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <RouterLink class="navbar-brand" :to="'/'" >Home</RouterLink>
       <button
         class="navbar-toggler"
         type="button"

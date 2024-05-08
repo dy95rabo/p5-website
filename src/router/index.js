@@ -64,6 +64,15 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/day5",
+      children: [
+        {
+          path: "exercise1",
+          component: () => import("../components/p5/day5/Shakespeare.vue"),
+        },
+      ],
+    },
   ],
 });
 

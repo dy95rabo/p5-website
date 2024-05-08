@@ -197,6 +197,21 @@ const sketch = (p5) => {
       Circle.tryToCreateNewCircle(600);
       Circle.drawAll();
     }
+    if(CIRCLE_ARR.length<=0){
+      let x = p5.width/2;
+      let y = p5.height/2
+      p5.push();
+      p5.fill(200)
+      p5.rectMode(p5.CENTER)
+      p5.rect(x,y,x,y)
+      p5.pop()
+      //Text
+      p5.push();
+      p5.textSize(70);
+      p5.textAlign(p5.CENTER)
+      p5.text("Scroll up and down \n and see what happens",x,y );
+      p5.pop();
+    }
   };
 
   // #########################     MOUSE PRESSED       #####################################
@@ -209,7 +224,7 @@ const sketch = (p5) => {
     if (!autogenerate) {
       p5.clear();
       BACKGROUND_COLOR.setBackground();
-      if (event.delta < 0) {
+      if (event.delta > 0) {
         Circle.generate(5);
       } else {
         Circle.removeLast(5);
