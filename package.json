@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-vue": "^2.23.1",
     "bootstrap-vue-next": "^0.16.6",
+    "lodash": "^4.17.21",
     "p5": "^1.9.3",
     "p5vue": "^0.0.7",
     "pinia": "^2.1.7",

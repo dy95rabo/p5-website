@@ -80,6 +80,16 @@ export default {
             },
           ],
         },
+        {
+          headline: "Day 6",
+          routePrefix: "/day6",
+          subRoutes: [
+            {
+              title: "Way of life",
+              path: "/exercise1",
+            },
+          ],
+        },
       ],
     };
   },

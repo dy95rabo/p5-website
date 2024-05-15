@@ -73,6 +73,15 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/day6",
+      children: [
+        {
+          path: "exercise1",
+          component: () => import("../components/p5/day6/WayOfLife.vue"),
+        },
+      ],
+    },
   ],
 });
 
