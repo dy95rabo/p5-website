@@ -12,12 +12,19 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    handler : function(e) {
+        e.preventDefault();
+     }
+  },
 };
 </script>
 
-<template>
-  <NavBar />
-  <RouterView />
-</template>
+<template >
+  <div @contextmenu.prevent="handler">
+    <NavBar />
+    <RouterView />
+  </div>
+  </template>
 
 <style scoped></style>

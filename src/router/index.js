@@ -6,6 +6,9 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
+      meta: {
+        hideNavbar: false,
+       },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -13,6 +16,9 @@ const router = createRouter({
     },
     {
       path: "/day1",
+      meta: {
+        hideNavbar: true,
+       },
       children: [
         {
           path: "exercise1",
@@ -34,6 +40,9 @@ const router = createRouter({
     },
     {
       path: "/day2",
+      meta: {
+        hideNavbar: true,
+       },
       children: [
         {
           path: "exercise1",
@@ -48,6 +57,12 @@ const router = createRouter({
     },
     {
       path: "/day3",
+      meta: {
+        hideNavbar: true,
+       },
+      meta: {
+        hideNavbar: true,
+       },
       children: [
         {
           path: "exercise1",
@@ -55,8 +70,12 @@ const router = createRouter({
         },
       ],
     },
+    
     {
       path: "/day4",
+      meta: {
+        hideNavbar: true,
+       },
       children: [
         {
           path: "exercise1",
@@ -66,6 +85,9 @@ const router = createRouter({
     },
     {
       path: "/day5",
+      meta: {
+        hideNavbar: true,
+       },
       children: [
         {
           path: "exercise1",
@@ -75,6 +97,9 @@ const router = createRouter({
     },
     {
       path: "/day6",
+      meta: {
+        hideNavbar: true,
+       },
       children: [
         {
           path: "exercise1",

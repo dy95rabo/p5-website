@@ -1,5 +1,6 @@
 <script setup>
-import _ from "lodash";
+const MIN_FRAMERATE = 1;
+const MAX_FRAMERATE = 30;
 
 const sketch = (p5) => {
   // ####################      Classes     #######################################
@@ -11,11 +12,61 @@ const sketch = (p5) => {
       this.b = b;
     }
 
-    static White = new Color(255, 255, 255);
-    static Black = new Color(0, 0, 0);
+    static white = new Color(255, 255, 255);
+    static red = new Color(255, 0, 0);
+    static green = new Color(0, 255, 0);
+    static blue = new Color(0, 0, 255);
+    static yellow = new Color(255, 255, 0);
+    static cyan = new Color(0, 255, 255);
+    static pink = new Color(255, 0, 255);
+    static black = new Color(0, 0, 0);
+
+    static wheel = [
+      Color.white,
+      Color.red,
+      Color.green,
+      Color.blue,
+      Color.yellow,
+      Color.cyan,
+      Color.pink,
+    ];
+    static current = 0;
+
+    static next() {
+      Color.current++;
+      if (Color.current >= Color.wheel.length) {
+        Color.current = 0;
+      }
+    }
+
+    static getCurrent() {
+      return Color.wheel[Color.current];
+    }
 
     static createRandom() {
       return new Color(p5.random(255), p5.random(255), p5.random(255));
+    }
+
+    static mix(colors) {
+      let mixedColor = new Color(0, 0, 0);
+      colors.forEach((c) => {
+        mixedColor.r += c.r;
+        mixedColor.g += c.g;
+        mixedColor.b += c.b;
+      });
+      mixedColor.r /= colors.length;
+      mixedColor.g /= colors.length;
+      mixedColor.b /= colors.length;
+      return mixedColor;
+    }
+
+    static drawColorCircle() {
+      p5.push();
+      Color.getCurrent().setFill();
+      p5.strokeWeight(3);
+      Color.black.setStroke();
+      p5.circle(p5.width / 2, p5.height / 2, 100);
+      p5.pop();
     }
 
     setBackground() {
@@ -39,61 +90,117 @@ const sketch = (p5) => {
   }
   // ####################        Square     #####################################
   class Square {
-    static size = 0;
+    static size = 20;
 
-    constructor(indexX, indexY, value = false) {
-      this.x = indexX * Square.size;
-      this.y = indexY * Square.size;
-      this.color = Color.White;
-      this.value = value;
+    constructor(iX, iY, value = false, color = Color.white) {
+      this.x = iX * Square.size;
+      this.y = iY * Square.size;
+      this.iX = iX;
+      this.iY = iY;
+      this.color = color;
+      this.nextColor = color;
+      this.nextValue = value;
+      this.currentValue = value;
+      this.adjacentCells = 0;
     }
 
     draw() {
       p5.push();
-      if (this.value) {
+      if (this.nextValue) {
         this.color.setFill();
       } else {
-        Color.Black.setFill();
+        Color.black.setFill();
       }
       p5.rect(this.x + 1, this.y + 1, Square.size - 2, Square.size - 2);
       p5.pop();
     }
 
     toggle() {
-      this.value = !this.value;
+      if (!this.currentValue) {
+        this.color = Color.getCurrent();
+      }
+      this.currentValue = !this.currentValue;
+      this.nextValue = this.currentValue;
     }
 
     contains(x, y) {
       let isInX = this.x < x && x < this.x + Square.size;
-      let isIny = this.y < y && y < this.y + Square.size;
-      return isInX && isIny;
+      let isInY = this.y < y && y < this.y + Square.size;
+      return isInX && isInY;
+    }
+
+    updateCurrentState() {
+      this.currentValue = this.nextValue;
+      this.color = this.nextColor;
+    }
+
+    calculateNextState(board) {
+      this.countActiveAdjacentCells(board);
+      if (
+        !(this.adjacentCells == 3 || this.adjacentCells == 2) &&
+        this.currentValue
+      ) {
+        this.nextValue = false;
+      } else if (!this.currentValue && this.adjacentCells == 3) {
+        this.nextValue = true;
+      }
+    }
+
+    countActiveAdjacentCells(board) {
+      this.adjacentCells = 0;
+      let adjacentColors = [];
+      for (let dX = -1; dX < 2; dX++) {
+        for (let dY = -1; dY < 2; dY++) {
+          if (dX != 0 || dY != 0) {
+            let currX = this.iX + dX;
+            if (currX < 0) {
+              currX += board.length;
+            }
+            if (currX >= board.length) {
+              currX -= board.length;
+            }
+            let currY = this.iY + dY;
+            if (currY < 0) {
+              currY += board[this.iX].length;
+            }
+            if (currY >= board[this.iX].length) {
+              currY -= board[this.iX].length;
+            }
+
+            let currentSquare = board[currX][currY];
+            if (currentSquare.currentValue) {
+              this.adjacentCells++;
+              adjacentColors.push(currentSquare.color);
+            }
+          }
+        }
+      }
+      this.nextColor = Color.mix(adjacentColors);
     }
   }
   // ####################      GameBoard     #######################################
 
   class GameBoard {
-    constructor(width, height, squareSize) {
+    constructor(squareSize) {
       Square.size = squareSize;
-      this.board = Array(width)
+      let numberOfSquaresInX = Math.floor(p5.width / squareSize);
+      let numberOfSquaresInY = Math.floor(p5.height / squareSize);
+      this.xShift = (p5.width - numberOfSquaresInX * squareSize) / 2;
+      this.yShift = (p5.height - numberOfSquaresInY * squareSize) / 2;
+      this.board = Array(numberOfSquaresInX)
         .fill(0)
         .map((x, iX) =>
-          Array(height)
+          Array(numberOfSquaresInY)
             .fill(0)
             .map((y, iY) => new Square(iX, iY))
         );
-      this.width = width;
-      this.height = height;
-      this.xShift = (p5.width - width * squareSize) / 2;
-      this.yShift = (p5.height - height * squareSize) / 2;
     }
 
     draw() {
       p5.push();
-      for (let x = 0; x < this.board.length; x++) {
-        for (let y = 0; y < this.board[x].length; y++) {
-          this.board[x][y].draw();
-        }
-      }
+      gameBoard.translate();
+      p5.background(127);
+      this.board.forEach((col) => col.forEach((square) => square.draw()));
       p5.pop();
     }
 
@@ -113,74 +220,20 @@ const sketch = (p5) => {
     }
 
     update() {
-      let newState = _.cloneDeep(this.board);
-      console.log(newState);
-      for (let x = 0; x < this.board.length; x++) {
-        for (let y = 0; y < this.board[x].length; y++) {
-          const square = newState[x][y];
-          let adjacentCells = this.countAdjacentSquares(x, y);
-          if (square.value) {
-            if (adjacentCells < 2) {
-              square.toggle();
-            } else if (adjacentCells > 3) {
-              square.toggle();
-            }
-          } else {
-            if (adjacentCells == 3) {
-              square.toggle();
-            }
-          }
-        }
-      }
-
-      this.board = newState;
-    }
-
-    countAdjacentSquares(x, y) {
-      let adjacentCells = 0;
-      for (let dX = -1; dX < 2; dX++) {
-        for (let dY = -1; dY < 2; dY++) {
-          if ((dX != dY) ||dX!= 0) {
-          let currX = x + dX;
-          if(currX<0){
-            currX+= this.board.length
-          }
-          if(currX>=this.board.length){
-            currX -= this.board.length
-          }
-          let currY = y + dY;
-          if(currY<0){
-            currY+= this.board[x].length
-          }
-          if(currY>=this.board[x].length){
-            currY -= this.board[x].length
-          }
-
-          let value = this.board[currX][currY].value;
-          if (value) {
-            adjacentCells++;
-          }
-        }
-      }
-
-      }
-      return adjacentCells;
+      this.board.forEach((col) =>
+        col.forEach((square) => square.calculateNextState(this.board))
+      );
+      this.board.forEach((col) =>
+        col.forEach((square) => square.updateCurrentState())
+      );
     }
   }
 
-  class Button {
-    constructor(x, y, width, height, text) {
-      this.x = x;
-      this.y = y;
-      this.width = width;
-      this.height = height;
-      this.text = text;
-    }
-  }
   let gameBoard;
   let isRunning = false;
-  let button;
-  let framerate = 2;
+  let frameRate = 2;
+  let displayCurrentColor = false;
+  let showTooltip = false;
 
   // ####################      P5 Functions     #######################################
   p5.preload = () => {};
@@ -188,46 +241,64 @@ const sketch = (p5) => {
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.frameRate(2);
-    gameBoard = new GameBoard(100, 50, 19);
-    // gameBoard = new GameBoard(34, 18, 50);
-    // gameBoard = new GameBoard(18, 11, 80);
-    // gameBoard = new GameBoard(3, 3, 200);
-    // button = new Button(p5.width-30,10,20,60)
+    gameBoard = new GameBoard(19);
+    gameBoard.draw();
   };
 
   p5.draw = () => {
+    if (showTooltip) {
+      return;
+    }
     if (isRunning) {
       gameBoard.update();
     }
     p5.clear();
-    gameBoard.translate();
-    p5.background(127);
     gameBoard.draw();
+    if (displayCurrentColor) {
+      Color.drawColorCircle();
+    }
   };
 
-  p5.mousePressed = () => {
+  p5.mousePressed = (event) => {
+    if (showTooltip) {
+      return;
+    }
     let x = p5.mouseX - gameBoard.xShift;
     let y = p5.mouseY - gameBoard.yShift;
-    gameBoard.checkClicked(x, y);
-
-    // button.checkButtonClicked(p5.mouseX,p5.mouseY)
+    if (p5.mouseButton === p5.LEFT) {
+      gameBoard.checkClicked(x, y);
+    }
+    if (p5.mouseButton === p5.RIGHT) {
+      displayCurrentColor = true;
+      Color.next();
+      Color.drawColorCircle();
+      setTimeout(() => {
+        displayCurrentColor = false;
+      }, 300);
+    }
   };
 
   p5.mouseWheel = (event) => {
     if (event.delta > 0) {
-      framerate++;
-      if(framerate>30){
-        framerate = 30
+      frameRate++;
+      if (frameRate > MAX_FRAMERATE) {
+        frameRate = MAX_FRAMERATE;
       }
     } else {
-      framerate--;
+      frameRate--;
+      if (frameRate < MIN_FRAMERATE) {
+        frameRate = MIN_FRAMERATE;
+      }
     }
-    p5.frameRate(framerate)
+    p5.frameRate(frameRate);
   };
 
   p5.keyPressed = (event) => {
     if (event.keyCode === p5.ENTER) {
       isRunning = !isRunning;
+    }
+    if (event.keyCode === p5.SPACE) {
+      showTooltip = !showTooltip;
     }
   };
 };
