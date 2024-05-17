@@ -7,6 +7,12 @@ export default Object.freeze({
     CARRIER: [
         [],
     ],
-    COLLATION: "Collation",
-    CASH_AND_CARRY: "Cash and carry"
+    SPINNER: [
+        [1,1,1],
+    ],
+    CASH_AND_CARRY: [
+        [1,1,1],
+        [0,0,1],
+        [0,1,0],
+    ],
   })

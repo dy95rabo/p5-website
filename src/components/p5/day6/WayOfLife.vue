@@ -1,6 +1,6 @@
 <script setup>
-const MIN_FRAMERATE = 1;
-const MAX_FRAMERATE = 30;
+const MIN_FRAMERATE = 3;
+const MAX_FRAMERATE = 60;
 
 const sketch = (p5) => {
   // ####################      Classes     #######################################
@@ -175,7 +175,8 @@ const sketch = (p5) => {
           }
         }
       }
-      this.nextColor = Color.mix(adjacentColors);
+      this.nextColor = this.currentValue?this.color:Color.mix(adjacentColors);
+      // this.nextColor = Color.mix(adjacentColors);
     }
   }
   // ####################      GameBoard     #######################################
@@ -183,8 +184,8 @@ const sketch = (p5) => {
   class GameBoard {
     constructor(squareSize) {
       Square.size = squareSize;
-      let numberOfSquaresInX = Math.floor(p5.width / squareSize);
-      let numberOfSquaresInY = Math.floor(p5.height / squareSize);
+      let numberOfSquaresInX = Math.floor(p5.width / squareSize)-1;
+      let numberOfSquaresInY = Math.floor(p5.height / squareSize)-1;
       this.xShift = (p5.width - numberOfSquaresInX * squareSize) / 2;
       this.yShift = (p5.height - numberOfSquaresInY * squareSize) / 2;
       this.board = Array(numberOfSquaresInX)
@@ -231,7 +232,7 @@ const sketch = (p5) => {
 
   let gameBoard;
   let isRunning = false;
-  let frameRate = 2;
+  let frameRate = 10;
   let displayCurrentColor = false;
   let showTooltip = false;
 
@@ -240,7 +241,7 @@ const sketch = (p5) => {
 
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
-    p5.frameRate(2);
+    p5.frameRate(frameRate);
     gameBoard = new GameBoard(19);
     gameBoard.draw();
   };

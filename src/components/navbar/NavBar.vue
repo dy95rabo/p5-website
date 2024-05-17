@@ -143,7 +143,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  height: 5%;
+  height: 2%;
   width: 100%;
   user-select: none;
 }
