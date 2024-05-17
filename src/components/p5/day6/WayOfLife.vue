@@ -1,7 +1,4 @@
 <script setup>
-const MIN_FRAMERATE = 3;
-const MAX_FRAMERATE = 60;
-
 const sketch = (p5) => {
   // ####################      Classes     #######################################
   // ####################        COLOR     #####################################
@@ -21,28 +18,6 @@ const sketch = (p5) => {
     static pink = new Color(255, 0, 255);
     static black = new Color(0, 0, 0);
 
-    static wheel = [
-      Color.white,
-      Color.red,
-      Color.green,
-      Color.blue,
-      Color.yellow,
-      Color.cyan,
-      Color.pink,
-    ];
-    static current = 0;
-
-    static next() {
-      Color.current++;
-      if (Color.current >= Color.wheel.length) {
-        Color.current = 0;
-      }
-    }
-
-    static getCurrent() {
-      return Color.wheel[Color.current];
-    }
-
     static createRandom() {
       return new Color(p5.random(255), p5.random(255), p5.random(255));
     }
@@ -58,15 +33,6 @@ const sketch = (p5) => {
       mixedColor.g /= colors.length;
       mixedColor.b /= colors.length;
       return mixedColor;
-    }
-
-    static drawColorCircle() {
-      p5.push();
-      Color.getCurrent().setFill();
-      p5.strokeWeight(3);
-      Color.black.setStroke();
-      p5.circle(p5.width / 2, p5.height / 2, 100);
-      p5.pop();
     }
 
     setBackground() {
@@ -117,7 +83,7 @@ const sketch = (p5) => {
 
     toggle() {
       if (!this.currentValue) {
-        this.color = Color.getCurrent();
+        this.color = colorManager.getCurrent();
       }
       this.currentValue = !this.currentValue;
       this.nextValue = this.currentValue;
@@ -134,8 +100,8 @@ const sketch = (p5) => {
       this.color = this.nextColor;
     }
 
-    calculateNextState(board) {
-      this.countActiveAdjacentCells(board);
+    calculateNextState(matrix) {
+      this.countActiveAdjacentCells(matrix);
       if (
         !(this.adjacentCells == 3 || this.adjacentCells == 2) &&
         this.currentValue
@@ -146,28 +112,13 @@ const sketch = (p5) => {
       }
     }
 
-    countActiveAdjacentCells(board) {
+    countActiveAdjacentCells(matrix) {
       this.adjacentCells = 0;
       let adjacentColors = [];
-      for (let dX = -1; dX < 2; dX++) {
-        for (let dY = -1; dY < 2; dY++) {
-          if (dX != 0 || dY != 0) {
-            let currX = this.iX + dX;
-            if (currX < 0) {
-              currX += board.length;
-            }
-            if (currX >= board.length) {
-              currX -= board.length;
-            }
-            let currY = this.iY + dY;
-            if (currY < 0) {
-              currY += board[this.iX].length;
-            }
-            if (currY >= board[this.iX].length) {
-              currY -= board[this.iX].length;
-            }
-
-            let currentSquare = board[currX][currY];
+      for (let dx = -1; dx < 2; dx++) {
+        for (let dy = -1; dy < 2; dy++) {
+          if (dx != 0 || dy != 0) {
+            let currentSquare = this.getRelativeSquare(dx, dy, matrix);
             if (currentSquare.currentValue) {
               this.adjacentCells++;
               adjacentColors.push(currentSquare.color);
@@ -175,33 +126,70 @@ const sketch = (p5) => {
           }
         }
       }
-      this.nextColor = this.currentValue?this.color:Color.mix(adjacentColors);
+      this.nextColor = this.currentValue
+        ? this.color
+        : Color.mix(adjacentColors);
       // this.nextColor = Color.mix(adjacentColors);
+    }
+
+    getRelativeSquare(dx, dy) {
+      let currX = this.iX + dx;
+      let matrix = boardManager.matrix;
+      let numberOfRows = matrix.length;
+      while (currX < 0) {
+        currX += numberOfRows;
+      }
+      while (currX >= numberOfRows) {
+        currX -= numberOfRows;
+      }
+      let currY = this.iY + dy;
+      let numberOfColumns = matrix[this.iX].length;
+      while (currY < 0) {
+        currY += numberOfColumns;
+      }
+      while (currY >= numberOfColumns) {
+        currY -= numberOfColumns;
+      }
+      return matrix[currX][currY];
+    }
+
+    insert() {
+      let prefab = insertManager.getCurrent();
+      for (let y = 0; y < prefab.length; y++) {
+        for (let x = 0; x < prefab[y].length; x++) {
+          let currentSquare = this.getRelativeSquare(x, y);
+          currentSquare.currentValue = !!prefab[y][x];
+          currentSquare.nextValue = !!prefab[y][x];
+          //currentSquare.nextValue = currentSquare.currentValue;
+          currentSquare.color = colorManager.getCurrent();
+        }
+      }
     }
   }
   // ####################      GameBoard     #######################################
 
-  class GameBoard {
+  class BoardManager {
     constructor(squareSize) {
       Square.size = squareSize;
-      let numberOfSquaresInX = Math.floor(p5.width / squareSize)-1;
-      let numberOfSquaresInY = Math.floor(p5.height / squareSize)-1;
+      let numberOfSquaresInX = Math.floor(p5.width / squareSize) - 1;
+      let numberOfSquaresInY = Math.floor(p5.height / squareSize) - 1;
       this.xShift = (p5.width - numberOfSquaresInX * squareSize) / 2;
       this.yShift = (p5.height - numberOfSquaresInY * squareSize) / 2;
-      this.board = Array(numberOfSquaresInX)
+      this.matrix = Array(numberOfSquaresInX)
         .fill(0)
         .map((x, iX) =>
           Array(numberOfSquaresInY)
             .fill(0)
             .map((y, iY) => new Square(iX, iY))
         );
+      this.isRunning = false;
     }
 
     draw() {
       p5.push();
-      gameBoard.translate();
+      boardManager.translate();
       p5.background(127);
-      this.board.forEach((col) => col.forEach((square) => square.draw()));
+      this.matrix.forEach((col) => col.forEach((square) => square.draw()));
       p5.pop();
     }
 
@@ -210,10 +198,14 @@ const sketch = (p5) => {
     }
 
     checkClicked(x, y) {
-      for (const column of this.board) {
+      for (const column of this.matrix) {
         for (const square of column) {
           if (square.contains(x, y)) {
-            square.toggle();
+            if(insertManager.currentIndex ==0){
+              square.toggle();
+            }else{
+              square.insert();
+            }
             return;
           }
         }
@@ -221,85 +213,318 @@ const sketch = (p5) => {
     }
 
     update() {
-      this.board.forEach((col) =>
-        col.forEach((square) => square.calculateNextState(this.board))
+      this.matrix.forEach((col) =>
+        col.forEach((square) => square.calculateNextState(this.matrix))
       );
-      this.board.forEach((col) =>
+      this.matrix.forEach((col) =>
         col.forEach((square) => square.updateCurrentState())
       );
     }
+
+    toggle() {
+      this.isRunning = !this.isRunning;
+    }
+  }
+  // ####################      FrameRateManager     #######################################
+  class FrameRateManager {
+    constructor(min = 5, max = 60, start = 10) {
+      this.min = min;
+      this.max = max;
+      this.current = start;
+    }
+
+    update(delta) {
+      if (delta > 0) {
+        this.current++;
+        if (this.current > this.max) {
+          this.current = this.max;
+        }
+      } else {
+        this.current--;
+        if (this.current < this.min) {
+          this.current = this.min;
+        }
+      }
+      this.setFrameRate();
+    }
+
+    setFrameRate() {
+      p5.frameRate(this.current);
+    }
   }
 
-  let gameBoard;
-  let isRunning = false;
-  let frameRate = 10;
-  let displayCurrentColor = false;
-  let showTooltip = false;
+  // ####################      TooltipManager     #######################################
+  class TooltipManager {
+    constructor() {
+      this.x = 0;
+      this.y = 0;
+      this.message = "";
+      this.active = false;
+    }
+
+    toggle() {
+      this.active = !this.active;
+    }
+  }
+  // ####################      InsertManager      #######################################
+
+  class InsertManager {
+    baseBlock = [[1]];
+    glider = [
+      [1, 1, 1],
+      [0, 0, 1],
+      [0, 1, 0],
+    ];
+    spinner = [[1, 1, 1]];
+    spaceship1 = [
+      [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
+      [1, 1, 0, 1, 0, 0, 1, 0, 1, 1],
+      [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+    ];
+
+    constructor() {
+      this.timer;
+      this.show = false;
+      this.timerDurationMilli = 300;
+      this.currentIndex = 0;
+      this.wheel = [this.baseBlock ,this.glider, this.spinner, this.spaceship1];
+      this.current = this.wheel[0];
+      // this.deleteMode = false;
+      // this.deleteSize = 3;
+      // this.currentDeleteMatrix;
+      // this.generateDeleteArea();
+    }
+
+    getCurrent() {
+      // return this.deleteMode ? this.currentDeleteMatrix : this.current;
+      return this.current;
+    }
+
+    // generateDeleteArea() {
+    //   this.currentDeleteMatrix = Array(this.deleteSize)
+    //     .fill(0)
+    //     .map((x) => Array(this.deleteSize).fill(0));
+    // }
+    next() {
+      // if (this.deleteMode) {
+      //   this.deleteSize++;
+      // } else {
+      this.currentIndex++;
+      if (this.currentIndex >= this.wheel.length) {
+        this.currentIndex = 0;
+      }
+      this.current = this.wheel[this.currentIndex];
+      this.displayChange();
+      // }
+    }
+
+    previous() {
+      // if (this.deleteMode) {
+      //   this.deleteSize--
+      //   if(this.deleteSize<1){
+      //     this.deleteSize = 1
+      //   }
+      // } else {
+      this.currentIndex--;
+      if (this.currentIndex < 0) {
+        this.currentIndex = this.wheel.length - 1;
+      }
+      this.current = this.wheel[this.currentIndex];
+      // }
+      this.displayChange();
+    }
+
+    displayChange() {
+      this.draw();
+      this.show = true;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.show = false;
+      }, this.timerDurationMilli);
+    }
+
+    rotate() {
+      //Rotate n x m Matrix 90deg
+      // https://stackoverflow.com/questions/15170942/how-to-rotate-a-matrix-in-an-array-in-javascript
+
+      this.current = this.current[0].map((val, index) =>
+        this.current.map((row) => row[index]).reverse()
+      );
+    }
+
+    // toggleDeleteMode() {
+    //   this.deleteMode = !this.deleteMode;
+    // }
+
+    draw() {
+      // TODO
+    }
+  }
+  // ####################      ColorManager      #######################################
+  class ColorManager {
+    constructor(
+      positionPercentageX = 0.5,
+      positionPercentageY = 0.5,
+      radius = 50
+    ) {
+      this.x = p5.width * positionPercentageX;
+      this.y = p5.height * positionPercentageY;
+      this.radius = radius;
+      this.current = 0;
+      this.timer;
+      this.show = false;
+      this.timerDurationMilli = 300;
+      this.wheel = [
+        Color.white,
+        Color.red,
+        Color.green,
+        Color.blue,
+        Color.yellow,
+        Color.cyan,
+        Color.pink,
+      ];
+    }
+
+    next() {
+      this.current++;
+      if (this.current >= this.wheel.length) {
+        this.current = 0;
+      }
+      this.displayChange();
+    }
+
+    previous() {
+      this.current--;
+      if (this.current < 0) {
+        this.current = this.wheel.length - 1;
+      }
+      this.displayChange();
+    }
+
+    displayChange() {
+      this.draw();
+      this.show = true;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.show = false;
+      }, this.timerDurationMilli);
+    }
+    getCurrent() {
+      return this.wheel[this.current];
+    }
+
+    draw() {
+      p5.push();
+      this.getCurrent().setFill();
+      p5.strokeWeight(3);
+      Color.black.setStroke();
+      p5.circle(this.x, this.y, this.radius * 2);
+      p5.pop();
+    }
+  }
+
+  // ! ####################      CONSTANTS     #######################################
+
+  let boardManager;
+  let colorManager;
+  let tooltipManager;
+  let frameRateManager;
+  let insertManager;
 
   // ####################      P5 Functions     #######################################
   p5.preload = () => {};
 
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
-    p5.frameRate(frameRate);
-    gameBoard = new GameBoard(19);
-    gameBoard.draw();
+    frameRateManager = new FrameRateManager();
+    frameRateManager.setFrameRate();
+    boardManager = new BoardManager(19);
+    boardManager.draw();
+
+    colorManager = new ColorManager();
+    tooltipManager = new TooltipManager();
+    insertManager = new InsertManager();
   };
 
   p5.draw = () => {
-    if (showTooltip) {
+    if (tooltipManager.active) {
       return;
     }
-    if (isRunning) {
-      gameBoard.update();
+    if (boardManager.isRunning) {
+      boardManager.update();
     }
     p5.clear();
-    gameBoard.draw();
-    if (displayCurrentColor) {
-      Color.drawColorCircle();
+    boardManager.draw();
+    if (colorManager.show) {
+      colorManager.draw();
     }
   };
 
-  p5.mousePressed = (event) => {
-    if (showTooltip) {
+  p5.mousePressed = () => {
+    if (tooltipManager.active) {
       return;
     }
-    let x = p5.mouseX - gameBoard.xShift;
-    let y = p5.mouseY - gameBoard.yShift;
+    let x = p5.mouseX - boardManager.xShift;
+    let y = p5.mouseY - boardManager.yShift;
+
     if (p5.mouseButton === p5.LEFT) {
-      gameBoard.checkClicked(x, y);
+      boardManager.checkClicked(x, y);
     }
     if (p5.mouseButton === p5.RIGHT) {
-      displayCurrentColor = true;
-      Color.next();
-      Color.drawColorCircle();
-      setTimeout(() => {
-        displayCurrentColor = false;
-      }, 300);
+      colorManager.next();
     }
   };
 
   p5.mouseWheel = (event) => {
-    if (event.delta > 0) {
-      frameRate++;
-      if (frameRate > MAX_FRAMERATE) {
-        frameRate = MAX_FRAMERATE;
-      }
-    } else {
-      frameRate--;
-      if (frameRate < MIN_FRAMERATE) {
-        frameRate = MIN_FRAMERATE;
-      }
-    }
-    p5.frameRate(frameRate);
+    frameRateManager.update(event.delta);
   };
 
   p5.keyPressed = (event) => {
-    if (event.keyCode === p5.ENTER) {
-      isRunning = !isRunning;
+    if (event.keyCode === 13) {
+      //Enter
+      boardManager.toggle();
     }
-    if (event.keyCode === p5.SPACE) {
-      showTooltip = !showTooltip;
+    // if (event.keyCode === 32) {
+    //   //Space bar
+    //   insertManager.toggle();
+    // }
+    if (event.keyCode === 38) {
+      //Arrow Up
+      insertManager.next();
+    }
+    if (event.keyCode === 40) {
+      //Arrow down
+      insertManager.previous();
+    }
+    if (event.keyCode === 82) {
+      //"r"
+      insertManager.rotate();
+    }
+    // if (event.keyCode === 68) {
+    //   //"d"
+    //   insertManager.toggleDeleteMode();
+    // }
+    if (event.keyCode === 72) {
+      //"h"
+      tooltipManager.toggle();
+    }
+    if (event.keyCode === 39) {
+      //arrow right
+      colorManager.next();
+    }
+    if (event.keyCode === 37) {
+      //arrow left
+      colorManager.previous();
     }
   };
 };

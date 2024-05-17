@@ -22,6 +22,7 @@
         "code --install-extension firefox-devtools.vscode-firefox-debug",
         "code --install-extension Zignd.html-css-class-completion",
         "code --install-extension Vue.volar",
+        "code --install-extension christian-kohler.path-intellisense",
         "code --install-extension sdras.vue-vscode-extensionpack",
         "code --uninstall-extension ms-azuretools.vscode-docker",
         "code --uninstall-extension GitHub.copilot",
