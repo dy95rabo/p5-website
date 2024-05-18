@@ -22,25 +22,25 @@ const sketch = (p5) => {
 
   p5.preload = () => {
     img = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
 
     //I tried cloning the object but thats really difficult to do in javascript
     redImg = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
     blueImg = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
     greenImg = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
 
     invertImg = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
     grayImg = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
 
     images.push(img);

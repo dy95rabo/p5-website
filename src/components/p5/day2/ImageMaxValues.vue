@@ -4,7 +4,7 @@ const sketch = (p5) => {
 
   p5.preload = () => {
     img = p5.loadImage(
-      "../../img/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
+      "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
   };
   p5.setup = () => {

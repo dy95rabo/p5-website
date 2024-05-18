@@ -17,6 +17,7 @@ const sketch = (p5) => {
     static cyan = new Color(0, 255, 255);
     static pink = new Color(255, 0, 255);
     static black = new Color(0, 0, 0);
+    static gray = new Color(127, 127, 127);
 
     static createRandom() {
       return new Color(p5.random(255), p5.random(255), p5.random(255));
@@ -227,13 +228,24 @@ const sketch = (p5) => {
   }
   // ####################      FrameRateManager     #######################################
   class FrameRateManager {
-    constructor(min = 5, max = 60, start = 10) {
+    constructor(
+      min = 1,
+      max = 60,
+      start = 10,
+      positionPercentageX = 0.66,
+      positionPercentageY = 0.5,
+      radius = 70
+    ) {
+      this.x = p5.width * positionPercentageX;
+      this.y = p5.height * positionPercentageY;
+      this.radius = radius;
       this.min = min;
       this.max = max;
       this.current = start;
       this.timer;
       this.show = false;
-      this.timerDurationMilli = 300;
+      this.timerDurationMilli = 500;
+      this.textSize = 90
     }
 
     update(delta) {
@@ -266,12 +278,16 @@ const sketch = (p5) => {
     }
 
     draw() {
-      //TODO
       p5.push();
-      console.log(this.current);
+      Color.gray.setFill();
       p5.strokeWeight(3);
       Color.black.setStroke();
       p5.circle(this.x, this.y, this.radius * 2);
+      p5.pop();
+      p5.push();
+      p5.textSize(this.textSize);
+      p5.textAlign(p5.CENTER);
+      p5.text(this.current, this.x, this.y+this.textSize*0.35);
       p5.pop();
     }
   }
@@ -315,55 +331,41 @@ const sketch = (p5) => {
       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
     ];
 
-    constructor() {
+    constructor(
+      positionPercentageX = 0.5,
+      positionPercentageY = 0.5,
+      sideLength = 300
+    ) {
+      this.x = p5.width * positionPercentageX;
+      this.y = p5.height * positionPercentageY;
+      this.sideLength = sideLength;
       this.timer;
       this.show = false;
-      this.timerDurationMilli = 300;
+      this.timerDurationMilli = 500;
       this.currentIndex = 0;
       this.wheel = [this.baseBlock, this.glider, this.spinner, this.spaceship1];
       this.current = this.wheel[0];
-      // this.deleteMode = false;
-      // this.deleteSize = 3;
-      // this.currentDeleteMatrix;
-      // this.generateDeleteArea();
     }
 
     getCurrent() {
-      // return this.deleteMode ? this.currentDeleteMatrix : this.current;
       return this.current;
     }
 
-    // generateDeleteArea() {
-    //   this.currentDeleteMatrix = Array(this.deleteSize)
-    //     .fill(0)
-    //     .map((x) => Array(this.deleteSize).fill(0));
-    // }
     next() {
-      // if (this.deleteMode) {
-      //   this.deleteSize++;
-      // } else {
       this.currentIndex++;
       if (this.currentIndex >= this.wheel.length) {
         this.currentIndex = 0;
       }
       this.current = this.wheel[this.currentIndex];
       this.displayChange();
-      // }
     }
 
     previous() {
-      // if (this.deleteMode) {
-      //   this.deleteSize--
-      //   if(this.deleteSize<1){
-      //     this.deleteSize = 1
-      //   }
-      // } else {
       this.currentIndex--;
       if (this.currentIndex < 0) {
         this.currentIndex = this.wheel.length - 1;
       }
       this.current = this.wheel[this.currentIndex];
-      // }
       this.displayChange();
     }
 
@@ -379,26 +381,29 @@ const sketch = (p5) => {
     rotate() {
       //Rotate n x m Matrix 90deg
       // https://stackoverflow.com/questions/15170942/how-to-rotate-a-matrix-in-an-array-in-javascript
-
       this.current = this.current[0].map((val, index) =>
         this.current.map((row) => row[index]).reverse()
       );
+      this.displayChange();
     }
 
-    // toggleDeleteMode() {
-    //   this.deleteMode = !this.deleteMode;
-    // }
-
     draw() {
-      // TODO
+      p5.push();
+      // this.current;
+      Color.white.setFill();
+      p5.rectMode(p5.CENTER);
+      p5.strokeWeight(3);
+      Color.black.setStroke();
+      p5.rect(this.x, this.y, this.sideLength, this.sideLength);
+      p5.pop();
     }
   }
   // ####################      ColorManager      #######################################
   class ColorManager {
     constructor(
-      positionPercentageX = 0.5,
+      positionPercentageX = 0.33,
       positionPercentageY = 0.5,
-      radius = 50
+      radius = 70
     ) {
       this.x = p5.width * positionPercentageX;
       this.y = p5.height * positionPercentageY;
@@ -406,7 +411,7 @@ const sketch = (p5) => {
       this.current = 0;
       this.timer;
       this.show = false;
-      this.timerDurationMilli = 300;
+      this.timerDurationMilli = 500;
       this.wheel = [
         Color.white,
         Color.red,
@@ -491,6 +496,12 @@ const sketch = (p5) => {
     if (colorManager.show) {
       colorManager.draw();
     }
+    if (insertManager.show) {
+      insertManager.draw();
+    }
+    if (frameRateManager.show) {
+      frameRateManager.draw();
+    }
   };
 
   p5.mousePressed = () => {
@@ -523,7 +534,7 @@ const sketch = (p5) => {
         insertManager.next();
         break;
       case 40: //Arrow down
-      case 87: //"s"
+      case 83: //"s"
         insertManager.previous();
         break;
       case 82: //"r"
@@ -534,7 +545,6 @@ const sketch = (p5) => {
         break;
       case 39: //Arrow Right
       case 68: //"d"
-      
         colorManager.next();
         break;
       case 37: //Arrow Right
