@@ -27,3 +27,8 @@ npm run dev
 ```sh
 npm run build
 ```
+
+
+# Tried publishing on Github Pages
+
+[link to tutorial](https://github.com/marketplace/actions/vue-to-github-pages)

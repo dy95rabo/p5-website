@@ -18,6 +18,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/p5-website/'
+  // base: '/p5-website/'
 
 })

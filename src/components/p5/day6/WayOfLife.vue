@@ -172,12 +172,12 @@ const sketch = (p5) => {
   // ####################      GameBoard     #######################################
 
   class BoardManager {
-    constructor(squareSize = 19) {
-      Square.size = squareSize;
-      let numberOfSquaresInX = Math.floor(p5.width / squareSize) - 1;
-      let numberOfSquaresInY = Math.floor(p5.height / squareSize) - 1;
-      this.xShift = (p5.width - numberOfSquaresInX * squareSize) / 2;
-      this.yShift = (p5.height - numberOfSquaresInY * squareSize) / 2;
+    constructor(squareSize = 17) {
+      Square.size = Math.max(8,squareSize);
+      let numberOfSquaresInX = Math.floor(p5.width / Square.size) - 1;
+      let numberOfSquaresInY = Math.floor(p5.height / Square.size) - 1;
+      this.xShift = (p5.width - numberOfSquaresInX * Square.size) / 2;
+      this.yShift = (p5.height - numberOfSquaresInY * Square.size) / 2;
       this.matrix = Array(numberOfSquaresInX)
         .fill(0)
         .map((x, iX) =>
@@ -337,7 +337,7 @@ const sketch = (p5) => {
       [1, 0, 1, 1, 1, 1, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 1],
     ];
-    oktagon = [
+    octagon = [
       [0, 1, 1, 1, 1, 0],
       [1, 0, 1, 1, 0, 1],
       [1, 1, 0, 0, 1, 1],
@@ -357,6 +357,20 @@ const sketch = (p5) => {
       [0, 0, 0, 0, 1],
       [1, 0, 0, 1, 0],
     ];
+    mandala = [
+      [1,1,1],
+      [1,0,1],
+      [1,0,1],
+      [0,0,0],
+      [1,0,1],
+      [1,0,1],
+      [1,1,1],
+    ];
+    f_pentomino =[
+      [0,1,1],
+      [1,1,0],
+      [0,1,0],
+    ] ;
 
     constructor(
       positionPercentageX = 0.5,
@@ -377,8 +391,11 @@ const sketch = (p5) => {
         // this.spinner,
         this.spaceship1,
         this.pulsator,
-        this.oktagon,
+        this.octagon,
         this.smallSailer,
+        this.mandala,
+        this.f_pentomino,
+
       ];
       this.current = this.wheel[0];
     }

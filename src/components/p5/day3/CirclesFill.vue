@@ -206,8 +206,9 @@ const sketch = (p5) => {
       p5.rect(x,y,x,y)
       p5.pop()
       //Text
+      let textSize = Math.min(p5.width,p5.height)>1000?50:25
       p5.push();
-      p5.textSize(70);
+      p5.textSize(textSize);
       p5.textAlign(p5.CENTER)
       p5.text("Scroll up and down \n and see what happens",x,y );
       p5.pop();
