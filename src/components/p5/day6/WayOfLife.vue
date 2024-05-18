@@ -201,9 +201,9 @@ const sketch = (p5) => {
       for (const column of this.matrix) {
         for (const square of column) {
           if (square.contains(x, y)) {
-            if(insertManager.currentIndex ==0){
+            if (insertManager.currentIndex == 0) {
               square.toggle();
-            }else{
+            } else {
               square.insert();
             }
             return;
@@ -231,6 +231,9 @@ const sketch = (p5) => {
       this.min = min;
       this.max = max;
       this.current = start;
+      this.timer;
+      this.show = false;
+      this.timerDurationMilli = 300;
     }
 
     update(delta) {
@@ -246,10 +249,30 @@ const sketch = (p5) => {
         }
       }
       this.setFrameRate();
+      this.displayChange();
     }
 
     setFrameRate() {
       p5.frameRate(this.current);
+    }
+
+    displayChange() {
+      this.draw();
+      this.show = true;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.show = false;
+      }, this.timerDurationMilli);
+    }
+
+    draw() {
+      //TODO
+      p5.push();
+      console.log(this.current);
+      p5.strokeWeight(3);
+      Color.black.setStroke();
+      p5.circle(this.x, this.y, this.radius * 2);
+      p5.pop();
     }
   }
 
@@ -259,11 +282,11 @@ const sketch = (p5) => {
       this.x = 0;
       this.y = 0;
       this.message = "";
-      this.active = false;
+      this.show = false;
     }
 
     toggle() {
-      this.active = !this.active;
+      this.show = !this.show;
     }
   }
   // ####################      InsertManager      #######################################
@@ -297,7 +320,7 @@ const sketch = (p5) => {
       this.show = false;
       this.timerDurationMilli = 300;
       this.currentIndex = 0;
-      this.wheel = [this.baseBlock ,this.glider, this.spinner, this.spaceship1];
+      this.wheel = [this.baseBlock, this.glider, this.spinner, this.spaceship1];
       this.current = this.wheel[0];
       // this.deleteMode = false;
       // this.deleteSize = 3;
@@ -490,41 +513,36 @@ const sketch = (p5) => {
   };
 
   p5.keyPressed = (event) => {
-    if (event.keyCode === 13) {
-      //Enter
-      boardManager.toggle();
-    }
-    // if (event.keyCode === 32) {
-    //   //Space bar
-    //   insertManager.toggle();
-    // }
-    if (event.keyCode === 38) {
-      //Arrow Up
-      insertManager.next();
-    }
-    if (event.keyCode === 40) {
-      //Arrow down
-      insertManager.previous();
-    }
-    if (event.keyCode === 82) {
-      //"r"
-      insertManager.rotate();
-    }
-    // if (event.keyCode === 68) {
-    //   //"d"
-    //   insertManager.toggleDeleteMode();
-    // }
-    if (event.keyCode === 72) {
-      //"h"
-      tooltipManager.toggle();
-    }
-    if (event.keyCode === 39) {
-      //arrow right
-      colorManager.next();
-    }
-    if (event.keyCode === 37) {
-      //arrow left
-      colorManager.previous();
+    switch (event.keyCode) {
+      case 13: //Enter
+      case 32: //Space Bar
+        boardManager.toggle();
+        break;
+      case 38: //Arrow up
+      case 87: //"w"
+        insertManager.next();
+        break;
+      case 40: //Arrow down
+      case 87: //"s"
+        insertManager.previous();
+        break;
+      case 82: //"r"
+        insertManager.rotate();
+        break;
+      case 72: //"h"
+        tooltipManager.toggle();
+        break;
+      case 39: //Arrow Right
+      case 68: //"d"
+      
+        colorManager.next();
+        break;
+      case 37: //Arrow Right
+      case 65: //"a"
+        colorManager.previous();
+        break;
+      default:
+        break;
     }
   };
 };
