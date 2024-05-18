@@ -1,4 +1,6 @@
 <script setup>
+//https://www.google.com/search?client=firefox-b-d&q=game+of+life
+
 const sketch = (p5) => {
   // ####################      Classes     #######################################
   // ####################        COLOR     #####################################
@@ -170,7 +172,7 @@ const sketch = (p5) => {
   // ####################      GameBoard     #######################################
 
   class BoardManager {
-    constructor(squareSize) {
+    constructor(squareSize = 19) {
       Square.size = squareSize;
       let numberOfSquaresInX = Math.floor(p5.width / squareSize) - 1;
       let numberOfSquaresInY = Math.floor(p5.height / squareSize) - 1;
@@ -245,7 +247,7 @@ const sketch = (p5) => {
       this.timer;
       this.show = false;
       this.timerDurationMilli = 500;
-      this.textSize = 90
+      this.textSize = 90;
     }
 
     update(delta) {
@@ -287,7 +289,7 @@ const sketch = (p5) => {
       p5.push();
       p5.textSize(this.textSize);
       p5.textAlign(p5.CENTER);
-      p5.text(this.current, this.x, this.y+this.textSize*0.35);
+      p5.text(this.current, this.x, this.y + this.textSize * 0.35);
       p5.pop();
     }
   }
@@ -330,6 +332,31 @@ const sketch = (p5) => {
       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
     ];
+    pulsator = [
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 0, 1, 1, 1, 1, 0, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+    ];
+    oktagon = [
+      [0, 1, 1, 1, 1, 0],
+      [1, 0, 1, 1, 0, 1],
+      [1, 1, 0, 0, 1, 1],
+      [1, 1, 0, 0, 1, 1],
+      [1, 0, 1, 1, 0, 1],
+      [0, 1, 1, 1, 1, 0],
+    ];
+    eater = [
+      [1, 1, 0, 0],
+      [1, 0, 1, 0],
+      [0, 0, 1, 0],
+      [0, 0, 1, 1],
+    ];
+    smallSailer = [
+      [0, 1, 1, 1, 1],
+      [1, 0, 0, 0, 1],
+      [0, 0, 0, 0, 1],
+      [1, 0, 0, 1, 0],
+    ];
 
     constructor(
       positionPercentageX = 0.5,
@@ -343,7 +370,16 @@ const sketch = (p5) => {
       this.show = false;
       this.timerDurationMilli = 500;
       this.currentIndex = 0;
-      this.wheel = [this.baseBlock, this.glider, this.spinner, this.spaceship1];
+      this.wheel = [
+        this.baseBlock,
+        this.glider,
+        this.eater,
+        // this.spinner,
+        this.spaceship1,
+        this.pulsator,
+        this.oktagon,
+        this.smallSailer,
+      ];
       this.current = this.wheel[0];
     }
 
@@ -389,12 +425,43 @@ const sketch = (p5) => {
 
     draw() {
       p5.push();
-      // this.current;
-      Color.white.setFill();
+      Color.gray.setFill();
       p5.rectMode(p5.CENTER);
       p5.strokeWeight(3);
       Color.black.setStroke();
-      p5.rect(this.x, this.y, this.sideLength, this.sideLength);
+      p5.rect(this.x, this.y, this.sideLength + 10, this.sideLength + 10);
+      p5.pop();
+      this.drawPrefab();
+    }
+
+    drawPrefab() {
+      let squareSize = 50;
+      squareSize = Math.floor(
+        Math.min(
+          this.sideLength / this.current[0].length,
+          this.sideLength / this.current.length,
+          squareSize
+        )
+      );
+      let xShift = (p5.width - this.current[0].length * squareSize) * 0.5;
+      let yShift = (p5.height - this.current.length * squareSize) * 0.5;
+      p5.push();
+      p5.translate(xShift, yShift);
+      this.current.forEach((row, iy) =>
+        this.current[iy].forEach((square, ix) => {
+          if (square) {
+            colorManager.getCurrent().setFill();
+          } else {
+            Color.black.setFill();
+          }
+          p5.rect(
+            ix * squareSize + 1,
+            iy * squareSize + 1,
+            squareSize - 2,
+            squareSize - 2
+          );
+        })
+      );
       p5.pop();
     }
   }
@@ -476,7 +543,7 @@ const sketch = (p5) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     frameRateManager = new FrameRateManager();
     frameRateManager.setFrameRate();
-    boardManager = new BoardManager(19);
+    boardManager = new BoardManager();
     boardManager.draw();
 
     colorManager = new ColorManager();
@@ -531,11 +598,11 @@ const sketch = (p5) => {
         break;
       case 38: //Arrow up
       case 87: //"w"
-        insertManager.next();
+        insertManager.previous();
         break;
       case 40: //Arrow down
       case 83: //"s"
-        insertManager.previous();
+        insertManager.next();
         break;
       case 82: //"r"
         insertManager.rotate();
@@ -550,6 +617,9 @@ const sketch = (p5) => {
       case 37: //Arrow Right
       case 65: //"a"
         colorManager.previous();
+        break;
+      case 27: //"ESC"
+        boardManager = new BoardManager();
         break;
       default:
         break;

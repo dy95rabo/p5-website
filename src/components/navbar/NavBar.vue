@@ -77,7 +77,7 @@ export default {
           routePrefix: "/day5",
           subRoutes: [
             {
-              title: "Word cloud",
+              title: "Shakespeare-GPT",
               path: "/exercise1",
             },
           ],
@@ -87,7 +87,7 @@ export default {
           routePrefix: "/day6",
           subRoutes: [
             {
-              title: "Way of life",
+              title: "Game of life",
               path: "/exercise1",
             },
           ],
