@@ -3,14 +3,7 @@
 const sketch = (p5) => {
 
     // ####################      CONSTANTS     #######################################
-    const CIRCLE_ARR = [];
-  const POINT_ARR = [];
-  const POINT_SIZE = 15;
-  const MIN_RADIUS = 1;
-  const MAX_RADIUS = 300;
-  const MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE = 5;
-  const RANDOMIZE_RADIUS = false;
-  let autogenerate = false;
+
     // ########################    COLOR     #####################################
     class Color {
 
@@ -19,6 +12,21 @@ const sketch = (p5) => {
       this.r = r;
       this.g = g;
       this.b = b;
+    }
+    static white = new Color(255, 255, 255);
+    static red = new Color(255, 0, 0);
+    static green = new Color(0, 255, 0);
+    static blue = new Color(0, 0, 255);
+    static yellow = new Color(255, 255, 0);
+    static cyan = new Color(0, 255, 255);
+    static pink = new Color(255, 0, 255);
+    static black = new Color(0, 0, 0);
+    static gray = new Color(127, 127, 127);
+    static brown = new Color(88, 57, 39);
+    static leafGreen = new Color(58, 95, 11);
+
+    static generateLeafColor(){
+      return new Color(p5.random(43,73), p5.random(80,110), p5.random(1,21))
     }
 
     static createRandom() {
@@ -50,85 +58,67 @@ const sketch = (p5) => {
       p5.stroke(255, 255, 255);
     }
   }
-
-  // ####################      NODE     #######################################
-  class Node {
-    constructor(x, y, parent ,color = null) {
-      this.x = x;
-      this.y = y;
-      this.parent = parent;
-      this.children = [];
-      this.color = color? color: Color.defaultNode()
-    }
-
-    addChild(node){
-      this.children.push(node)
-    }
-
-    // static createRandom() {
-    //   return new Node(p5.random(p5.width), p5.random(p5.height));
-    // }
-
-    // calcDist(point) {
-    //   return p5.dist(this.x, this.y, point.x, point.y);
-    // }
-
-    draw() {
-      p5.push();
-      this.color.setStroke()
-      p5.strokeWeight(POINT_SIZE);
-      p5.point(this.x, this.y);
-      p5.pop();
-    }
-
-    drawLine(node) {
-      p5.push();
-      Color.defaultLightning().setStroke();
-      p5.strokeWeight(2);
-      p5.line(this.x, this.y, node.x, node.y);
-      p5.pop();
-    }
-
-    // calcWallDist() {
-    //   let minX = p5.min(this.x, p5.width - this.x);
-    //   let minY = p5.min(this.y, p5.height - this.y);
-
-    //   return p5.min(minX, minY);
-    // }
-
-    // static drawAll() {
-    //   POINT_ARR.forEach((p) => {
-    //     p.draw();
-    //   });
-    // }
-    /**
-      calculates the minimal distance to all other circles and walls
-       * @returns minimal distance
-       *  
-       * */
-    // calcMinDistance() {
-    //   let minDist = this.calcWallDist();
-    //   for (const c of CIRCLE_ARR) {
-    //     let dist = c.calcDist(this);
-    //     if (dist < minDist) {
-    //       minDist = dist;
-    //     }
-    //   }
-    //   return minDist;
-    // }
+  // ####################      functions     #######################################
+function branch(length, angle,relativeStartingHeight = 0){
+  let isLAstIteration = length<10/lengthFactor
+  if(isLAstIteration){
+    Color.generateLeafColor().setStroke();
   }
+  if(length<10){
+    return;
+  }
+  p5.push();
+  p5.translate(0,length*relativeStartingHeight/lengthFactor)
+  p5.rotate(angle)
+  // p5.strokeWeight(Math.log(length))
+  p5.strokeWeight(length*(isLAstIteration?0.3:0.1))
+  p5.line(0,0,0,-length)
+  p5.translate(0,-length)
+  let nextLength = length*lengthFactor;
+  branch(nextLength, p5.random(10,60))
+  branch(nextLength, -p5.random(10,60))
+  branch(nextLength, p5.random(10,70),p5.random(0.4,0.8))
+  branch(nextLength, -p5.random(10,70),p5.random(0.4,0.8))
+  p5.pop();
+}
+
+function createRandomTree(){
+  p5.background(127, 127, 127);
+    p5.angleMode(p5.DEGREES);
+    let startingLength = p5.height*0.3
+    p5.translate(p5.width*0.5,p5.height*0.9)
+    Color.brown.setStroke();
+    // p5.strokeWeight(Math.log(startingLength))
+    p5.strokeWeight(startingLength*0.1)
+    p5.line(0,0,0,p5.height*0.1)
+    branch(startingLength,0)
+}
+
+function isInCanvas(x,y){
+  return 0<=x && x<= p5.width && 0<=y && y<= p5.height
+}
+
+  // ####################      variables     #######################################
+  let slider;
+  let lengthFactor = 0.67
+  // ####################      P5 functions     #######################################
   p5.preload = () => {};
 
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
-    p5.background(127, 127, 127);
+    createRandomTree()
+  };
 
+  p5.draw = () => {
 
   };
 
-  p5.draw = () => {};
-
-  p5.mousePressed = () => {};
+  p5.mousePressed = () => {
+    if(isInCanvas(p5.mouseX,p5.mouseY)){
+      p5.clear();
+      createRandomTree()
+    }
+  };
 
   p5.mouseWheel = (event) => {
     if(event.delta>0){
