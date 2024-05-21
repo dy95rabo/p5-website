@@ -217,6 +217,8 @@ const sketch = (p5) => {
 
   // #########################     MOUSE PRESSED       #####################################
   p5.mousePressed = () => {
+    console.log("Circles -> clicked");
+
     // autogenerate = !autogenerate;
   };
 

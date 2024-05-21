@@ -84,7 +84,7 @@ const sketch = (p5) => {
 
     do {
       currentWord = getRandomKey(CHAIN);
-      console.log(currentWord + " -> " + startsWithCapitalLetter(currentWord));
+      // console.log(currentWord + " -> " + startsWithCapitalLetter(currentWord));
     } while (!startsWithCapitalLetter(currentWord));
     output = currentWord;
   };
@@ -114,7 +114,10 @@ const sketch = (p5) => {
     p5.pop();
   };
 
-  p5.mousePressed = () => {};
+  p5.mousePressed = () => {
+    console.log("shakespeare-gpt -> clicked");
+
+  };
 
   p5.mouseWheel = (event) => {
     if (event.delta > 0) {

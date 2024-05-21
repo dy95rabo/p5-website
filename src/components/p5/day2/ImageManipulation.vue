@@ -117,6 +117,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
+    console.log("image Manipulation -> clicked");
     swapImage();
   };
 };
