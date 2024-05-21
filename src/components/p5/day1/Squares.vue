@@ -1,5 +1,8 @@
 <script setup>
+import { onBeforeUnmount } from 'vue';
+let p5Instance = null;
 const sketch = (p5) => {
+  p5Instance = p5;
   class Rectangle {
     constructor(options) {
       let x;
@@ -125,6 +128,12 @@ const sketch = (p5) => {
     generateRect();
   };
 };
+// p5 instance Cleanup on unmount component
+onBeforeUnmount(() => {
+  if (p5Instance) {
+    p5Instance.remove();
+  }
+});
 </script>
 
 <template>

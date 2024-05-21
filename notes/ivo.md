@@ -24,3 +24,7 @@ npm i pinia-plugin-persistedstate
 
 ## Commands
 * `npm run dev -- --host`
+
+
+# Stack Overflow
+ * [Fix problem with Multiple instances of P5 after navigating](https://stackoverflow.com/questions/78511874/vue-keeps-p5-components-alive-after-navigating/78512036#78512036)

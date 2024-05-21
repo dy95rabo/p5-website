@@ -1,5 +1,8 @@
 <script setup>
+import { onBeforeUnmount } from 'vue';
+let p5Instance = null;
 const sketch = (p5) => {
+  p5Instance = p5;
   const BUBBLE_MAP = new Map();
   const FRAGMENTS_MAP = new Map();
 
@@ -194,6 +197,12 @@ const sketch = (p5) => {
     Bubble.onClick(p5.mouseX, p5.mouseY);
   };
 };
+// p5 instance Cleanup on unmount component
+onBeforeUnmount(() => {
+  if (p5Instance) {
+    p5Instance.remove();
+  }
+});
 </script>
 
 <template>

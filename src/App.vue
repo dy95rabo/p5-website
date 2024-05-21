@@ -13,18 +13,18 @@ export default {
     return {};
   },
   methods: {
-    handler : function(e) {
-        e.preventDefault();
-     }
+    handler: function (e) {
+      e.preventDefault();
+    },
   },
 };
 </script>
 
-<template >
+<template>
   <div @contextmenu.prevent="handler">
     <NavBar />
     <RouterView />
   </div>
-  </template>
+</template>
 
 <style scoped></style>
