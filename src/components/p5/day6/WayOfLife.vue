@@ -595,7 +595,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    console.log("Way of Life -> clicked");
+    // console.log("Way of Life -> clicked");
     if(!isInCanvas(p5.mouseX, p5.mouseY)){
       return;
     }

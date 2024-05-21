@@ -122,7 +122,7 @@ const sketch = (p5) => {
   }
 
   p5.mousePressed = () => {
-    console.log("Squares -> clicked");
+    // console.log("Squares -> clicked");
 
     seed = p5.random(10000000);
     generateRect();

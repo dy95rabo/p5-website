@@ -55,7 +55,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    console.log("Max value image -> clicked");
+    // console.log("Max value image -> clicked");
 
   };
 };

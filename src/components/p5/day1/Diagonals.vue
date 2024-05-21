@@ -34,7 +34,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    console.log("Diagonal Lines -> clicked");
+    // console.log("Diagonal Lines -> clicked");
 
     seed = p5.random(10000000);
   };

@@ -192,7 +192,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    console.log("Bubbles -> clicked");
+    // console.log("Bubbles -> clicked");
 
     Bubble.onClick(p5.mouseX, p5.mouseY);
   };

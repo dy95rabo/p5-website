@@ -118,7 +118,7 @@ const sketch = (p5) => {
   p5.draw = () => {};
 
   p5.mousePressed = () => {
-    console.log("Fractals -> clicked");
+    // console.log("Fractals -> clicked");
 
     if (isInCanvas(p5.mouseX, p5.mouseY)) {
       createRandomTree();

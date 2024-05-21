@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount } from "vue";
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -13,6 +13,73 @@ const sketch = (p5) => {
   let output;
   let currentWord;
   // ####################      Classes     #######################################
+  // ####################      FrameRateManager     #######################################
+  class FrameRateManager {
+    constructor(
+      min = 1,
+      max = 60,
+      start = 10,
+      positionPercentageX = 0.5,
+      positionPercentageY = 0.5,
+      radius = 70
+    ) {
+      this.x = p5.width * positionPercentageX;
+      this.y = p5.height * positionPercentageY;
+      this.radius = radius;
+      this.min = min;
+      this.max = max;
+      this.current = start;
+      this.timer;
+      this.show = false;
+      this.timerDurationMilli = 500;
+      this.textSize = 90;
+    }
+
+    update(delta) {
+      if (delta > 0) {
+        this.current++;
+        if (this.current > this.max) {
+          this.current = this.max;
+        }
+      } else {
+        this.current--;
+        if (this.current < this.min) {
+          this.current = this.min;
+        }
+      }
+      this.setFrameRate();
+      this.displayChange();
+    }
+
+    setFrameRate() {
+      p5.frameRate(this.current);
+    }
+
+    displayChange() {
+      this.draw();
+      this.show = true;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.show = false;
+      }, this.timerDurationMilli);
+    }
+
+    draw() {
+      p5.push();
+      p5.fill(127, 127, 127);
+      p5.strokeWeight(3);
+      p5.stroke(0);
+      p5.circle(this.x, this.y, this.radius * 2);
+      p5.pop();
+      p5.push();
+      p5.textSize(this.textSize);
+      p5.textAlign(p5.CENTER);
+      p5.text(this.current, this.x, this.y + this.textSize * 0.35);
+      p5.pop();
+    }
+  }
+  // ####################      WORD     #######################################
+
   class Word {
     constructor() {
       this.totalCount = 0;
@@ -59,6 +126,14 @@ const sketch = (p5) => {
     return /^[A-Z]/.test(str);
   }
 
+  function getFirstWord() {
+    do {
+      currentWord = getRandomKey(CHAIN);
+    } while (!startsWithCapitalLetter(currentWord));
+    output = currentWord;
+  }
+
+  let frameRateManager;
   // ####################      P5 Functions     #######################################
   p5.preload = () => {
     text = p5.loadStrings("../../src/assets/shakespeare2.txt");
@@ -83,49 +158,50 @@ const sketch = (p5) => {
     }
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.background(127, 127, 127);
-    p5.frameRate(5);
 
-    do {
-      currentWord = getRandomKey(CHAIN);
-      // console.log(currentWord + " -> " + startsWithCapitalLetter(currentWord));
-    } while (!startsWithCapitalLetter(currentWord));
-    output = currentWord;
+    getFirstWord();
+
+    frameRateManager = new FrameRateManager();
+    frameRateManager.setFrameRate();
   };
 
   p5.draw = () => {
-    if (output.length > 1500) return;
-    let previousWord = currentWord;
-    currentWord = CHAIN.get(currentWord).getRandomNext();
-    if (
-      !(
-        needsNoWhitespaceInFront(currentWord) ||
-        needsNoWhitespaceAfter(previousWord)
-      )
-    ) {
-      output += " ";
+    if (output.length < 1500) {
+      let previousWord = currentWord;
+      currentWord = CHAIN.get(currentWord).getRandomNext();
+      if (
+        !(
+          needsNoWhitespaceInFront(currentWord) ||
+          needsNoWhitespaceAfter(previousWord)
+        )
+      ) {
+        output += " ";
+      }
+      output += currentWord;
     }
-    output += currentWord;
 
-    p5.clear();
-    p5.background(127, 127, 127);
+      p5.clear();
+      p5.background(127, 127, 127);
 
-    let x = p5.width / 2;
-    p5.push();
-    p5.textSize(25);
-    p5.textAlign(p5.CENTER);
-    p5.text(output, x, 30);
-    p5.pop();
+      let x = p5.width / 2;
+      p5.push();
+      p5.textSize(25);
+      p5.textAlign(p5.CENTER);
+      p5.text(output, x, 30);
+      p5.pop();
+    if (frameRateManager.show) {
+      frameRateManager.draw();
+    }
   };
 
   p5.mousePressed = () => {
-    console.log("shakespeare-gpt -> clicked");
+    output = "";
+    getFirstWord();
 
   };
 
   p5.mouseWheel = (event) => {
-    if (event.delta > 0) {
-    } else {
-    }
+    frameRateManager.update(event.delta);
   };
 };
 

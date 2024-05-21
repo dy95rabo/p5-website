@@ -20,7 +20,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    console.log("Random Lines -> clicked");
+    // console.log("Random Lines -> clicked");
 
     p5.clear();
     p5.background(0, 0, 0);
