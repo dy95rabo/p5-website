@@ -57,7 +57,7 @@ export default {
           routePrefix: "/day3",
           subRoutes: [
             {
-              title: "Circles",
+              title: "Circles Fill",
               path: "/exercise1",
             },
           ],
@@ -67,7 +67,7 @@ export default {
           routePrefix: "/day4",
           subRoutes: [
             {
-              title: "Fractal",
+              title: "Fractal Tree Generator",
               path: "/exercise1",
             },
           ],

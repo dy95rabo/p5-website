@@ -545,6 +545,10 @@ const sketch = (p5) => {
     }
   }
 
+  function isInCanvas(x,y){
+  return 0<=x && x<= p5.width && 0<=y && y<= p5.height
+}
+
   // ! ####################      CONSTANTS     #######################################
 
   let boardManager;
@@ -589,6 +593,9 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
+    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+      return;
+    }
     if (tooltipManager.active) {
       return;
     }
