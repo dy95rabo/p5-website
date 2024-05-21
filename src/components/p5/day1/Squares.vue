@@ -61,9 +61,14 @@ const sketch = (p5) => {
     }
   }
 
+  // ####################      variables     #######################################
+
   let initialRect;
   let seed;
   let rectangles = [];
+
+  // ####################      P5 Functions     #######################################
+
 
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
