@@ -20,3 +20,7 @@ npm i pinia-plugin-persistedstate
     * upside down random tree until it touches the ground then draw direct line to root in fat and light up lines close to direct line 
 * Add popping animation to [Day1 Bubbles]("src\components\p5\day1\Bubble.vue")
     * maybe like firework
+    
+
+## Commands
+* `npm run dev -- --host`
