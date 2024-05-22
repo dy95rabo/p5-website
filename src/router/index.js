@@ -53,6 +53,10 @@ const router = createRouter({
           path: "exercise2",
           component: () => import("../components/p5/day2/ImageMaxValues.vue"),
         },
+        {
+          path: "exercise3",
+          component: () => import("../components/p5/day2/ImageOverlayEffect.vue"),
+        },
       ],
     },
     {
@@ -67,6 +71,10 @@ const router = createRouter({
         {
           path: "exercise1",
           component: () => import("../components/p5/day3/CirclesFill.vue"),
+        },
+        {
+          path: "exercise2",
+          component: () => import("../components/p5/day3/Pipe.vue"),
         },
       ],
     },
@@ -92,6 +100,10 @@ const router = createRouter({
         {
           path: "exercise1",
           component: () => import("../components/p5/day5/Shakespeare.vue"),
+        },
+        {
+          path: "exercise2",
+          component: () => import("../components/p5/day5/WordCloud.vue"),
         },
       ],
     },

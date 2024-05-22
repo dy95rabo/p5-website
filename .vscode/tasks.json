@@ -111,7 +111,7 @@
 
     },
     {
-      "label": "npm run dev",
+      "label": "npm run dev -- --host",
       "isBackground": false,
       "dependsOn": [
         "npm install",

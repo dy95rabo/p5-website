@@ -33,7 +33,7 @@ const sketch = (p5) => {
     static onClick(mouseX, mouseY) {
       for (const circle of BUBBLE_MAP.values()) {
         if (circle.isInside(mouseX, mouseY)) {
-          Fragment.spawn(circle.x, circle.y, p5.random(10, circle.area / 20));
+          Fragment.spawn(circle.x, circle.y, p5.random(10, circle.area /15));
           circle.pop();
         }
       }
@@ -103,7 +103,7 @@ const sketch = (p5) => {
   class Fragment {
     static gravity = 0.4;
     static starting_velocity = 15;
-    static drag = 0.99;
+    static drag = 0.985;
     static fadingFactor = 0.995;
 
     static generateId() {

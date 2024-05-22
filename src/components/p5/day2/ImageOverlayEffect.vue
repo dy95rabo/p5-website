@@ -1,19 +1,22 @@
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount } from "vue";
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
-  let img;
+  let baseImg;
   let redImg;
   let blueImg;
   let greenImg;
   let invertImg;
   let grayImg;
 
-  const translationFactor = 10;
+  let mouseAngle = 0;
+  let translationFactor = 15;
+
   const alpha = 50;
 
   const images = [];
+  const OVERLAY_IMAGES = [];
   let currentImage = 0;
 
   function swapImage() {
@@ -24,11 +27,10 @@ const sketch = (p5) => {
   }
 
   p5.preload = () => {
-    img = p5.loadImage(
+    baseImg = p5.loadImage(
       "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
 
-    //I tried cloning the object but thats really difficult to do in javascript
     redImg = p5.loadImage(
       "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
@@ -46,19 +48,20 @@ const sketch = (p5) => {
       "../../src/assets/glowing-spaceship-orbits-planet-starry-galaxy-generated-by-ai.jpg"
     );
 
-    images.push(img);
-    images.push(redImg);
-    images.push(greenImg);
-    images.push(blueImg);
+    images.push(baseImg);
     images.push(invertImg);
     images.push(grayImg);
+    OVERLAY_IMAGES.push(redImg);
+    OVERLAY_IMAGES.push(greenImg);
+    OVERLAY_IMAGES.push(blueImg);
   };
+
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.pixelDensity(1);
 
     // p5.loadPixels();
-    img.loadPixels();
+    baseImg.loadPixels();
     redImg.loadPixels();
     blueImg.loadPixels();
     greenImg.loadPixels();
@@ -87,36 +90,34 @@ const sketch = (p5) => {
       }
     }
 
-    img.updatePixels();
-    redImg.updatePixels();
-    blueImg.updatePixels();
-    greenImg.updatePixels();
+    baseImg.updatePixels();
+
+    OVERLAY_IMAGES.forEach((img) => img.updatePixels());
 
     invertImg.filter(p5.INVERT);
     grayImg.filter(p5.GRAY);
   };
 
   p5.draw = () => {
-    //   image(invertImg,0,0,width,height);
-
-    //füge eine translation jeweils um 120 grad verschoben zur vorhärigen mit einer amplitude relativ zur mausposition ein
-
-    //   push()
-    //   translate(translationFactor * Math.cos(0), translationFactor * Math.sin(0))
-    //   image(redImg,0,0,width,height)
-    //   pop()
-
-    //   push()
-    //   translate(translationFactor * Math.cos(2/3*Math.PI), translationFactor * Math.sin(2/3*Math.PI))
-    //   image(blueImg,0,0,width,height)
-    //   pop()
-
-    //   push()
-    //   translate(translationFactor * Math.cos(4/3*Math.PI), translationFactor * Math.sin(4/3*Math.PI))
-    //   image(greenImg,0,0,width,height)
-    //   pop()
+    let dx = p5.mouseX - p5.width * 0.5;
+    let dy = p5.mouseY - p5.height * 0.5;
+    mouseAngle = (dx < 0 ? Math.PI : 0) - Math.atan(dy / dx);
+    translationFactor =
+      Math.sqrt(
+        (dx * dx + dy * dy) / (p5.width * p5.width + p5.height * p5.height)
+      ) * 150;
 
     p5.image(images[currentImage], 0, 0, p5.width, p5.height);
+
+    OVERLAY_IMAGES.forEach((img, i) => {
+      p5.push();
+      p5.translate(
+        translationFactor * Math.cos(((i * 2) / 3) * Math.PI + mouseAngle),
+        translationFactor * Math.sin(((i * 2) / 3) * Math.PI + mouseAngle)
+      );
+      p5.image(img, 0, 0, p5.width, p5.height);
+      p5.pop();
+    });
   };
 
   function isInCanvas(x, y) {
@@ -124,10 +125,9 @@ const sketch = (p5) => {
   }
   
   p5.mousePressed = () => {
-    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
-    // console.log("image Manipulation -> clicked");
     swapImage();
   };
 };

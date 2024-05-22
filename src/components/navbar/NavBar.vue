@@ -50,6 +50,10 @@ export default {
               title: "Max color values",
               path: "/exercise2",
             },
+            {
+              title: "Color Glitch",
+              path: "/exercise3",
+            },
           ],
         },
         {
@@ -59,6 +63,10 @@ export default {
             {
               title: "Circles Fill",
               path: "/exercise1",
+            },
+            {
+              title: "Pipe",
+              path: "/exercise2",
             },
           ],
         },
@@ -79,6 +87,10 @@ export default {
             {
               title: "Shakespeare-GPT",
               path: "/exercise1",
+            },
+            {
+              title: "WordCloud",
+              path: "/exercise2",
             },
           ],
         },

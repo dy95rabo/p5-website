@@ -37,27 +37,9 @@ const sketch = (p5) => {
     p5.image(img, 0, 0, p5.width, p5.height);
   };
 
-  p5.draw = () => {
-    //   image(invertImg,0,0,width,height);
-    //füge eine translation jeweils um 120 grad verschoben zur vorhärigen mit einer amplitude relativ zur mausposition ein
-    //   push()
-    //   translate(translationFactor * Math.cos(0), translationFactor * Math.sin(0))
-    //   image(redImg,0,0,width,height)
-    //   pop()
-    //   push()
-    //   translate(translationFactor * Math.cos(2/3*Math.PI), translationFactor * Math.sin(2/3*Math.PI))
-    //   image(blueImg,0,0,width,height)
-    //   pop()
-    //   push()
-    //   translate(translationFactor * Math.cos(4/3*Math.PI), translationFactor * Math.sin(4/3*Math.PI))
-    //   image(greenImg,0,0,width,height)
-    //   pop()
-  };
+  p5.draw = () => { };
 
-  p5.mousePressed = () => {
-    // console.log("Max value image -> clicked");
-
-  };
+  p5.mousePressed = () => { };
 };
 // p5 instance Cleanup on unmount component
 onBeforeUnmount(() => {

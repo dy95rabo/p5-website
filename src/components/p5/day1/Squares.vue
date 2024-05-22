@@ -121,7 +121,14 @@ const sketch = (p5) => {
     }
   }
 
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
+  
   p5.mousePressed = () => {
+    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+      return;
+    }
     // console.log("Squares -> clicked");
 
     seed = p5.random(10000000);

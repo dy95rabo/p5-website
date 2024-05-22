@@ -19,9 +19,15 @@ const sketch = (p5) => {
     p5.line(p5.width / 2, p5.height / 2, x, y);
   };
 
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
+  
   p5.mousePressed = () => {
     // console.log("Random Lines -> clicked");
-
+    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+      return;
+    }
     p5.clear();
     p5.background(0, 0, 0);
   };

@@ -115,7 +115,7 @@ const sketch = (p5) => {
   }
 
   function needsNoWhitespaceInFront(str) {
-    return /[.,\/#!$?%\^&\*)}\];:=~]/g.test(str);
+    return /[.,\/#!$?%\^&\*)}\];:=~({\[`]/g.test(str);
   }
 
   function needsNoWhitespaceAfter(str) {
@@ -180,24 +180,30 @@ const sketch = (p5) => {
       output += currentWord;
     }
 
-      p5.clear();
-      p5.background(127, 127, 127);
+    p5.clear();
+    p5.background(127, 127, 127);
 
-      let x = p5.width / 2;
-      p5.push();
-      p5.textSize(25);
-      p5.textAlign(p5.CENTER);
-      p5.text(output, x, 30);
-      p5.pop();
+    let x = p5.width / 2;
+    p5.push();
+    p5.textSize(25);
+    p5.textAlign(p5.CENTER);
+    p5.text(output, x, 30);
+    p5.pop();
     if (frameRateManager.show) {
       frameRateManager.draw();
     }
   };
 
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
+  
   p5.mousePressed = () => {
+    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
+      return;
+    }
     output = "";
     getFirstWord();
-
   };
 
   p5.mouseWheel = (event) => {

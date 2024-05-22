@@ -33,9 +33,16 @@ const sketch = (p5) => {
     }
   };
 
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
+  
   p5.mousePressed = () => {
     // console.log("Diagonal Lines -> clicked");
 
+    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+      return;
+    }
     seed = p5.random(10000000);
   };
 };
