@@ -133,7 +133,7 @@
         "close": false
       },
       "type": "npm",
-      "script": "dev",
+      "script": "dev -- --host",
     },
   ]
 }

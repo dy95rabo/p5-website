@@ -115,7 +115,7 @@ const router = createRouter({
       children: [
         {
           path: "exercise1",
-          component: () => import("../components/p5/day6/WayOfLife.vue"),
+          component: () => import("../components/p5/day6/GameOfLife.vue"),
         },
       ],
     },

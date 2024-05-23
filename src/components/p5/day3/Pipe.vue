@@ -9,12 +9,16 @@ const sketch = (p5) => {
   const STEP_SIZE = 2;
   const INIT_RADIUS = 150;
   const MOUSE_ATTRACTION = 0.02;
-  const ANGEL_SPACING = ((2*Math.PI) / AMOUNT_OF_POINTS);
+  const ANGEL_SPACING = (2 * Math.PI) / AMOUNT_OF_POINTS;
   let centerX;
   let centerY;
   const X = [];
   const Y = [];
 
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
+  
   p5.preload = () => {};
 
   p5.setup = () => {
@@ -43,18 +47,18 @@ const sketch = (p5) => {
     //   p5.circle(X[i] + centerX, Y[i] + centerY, 5);
     // }
     p5.push();
-    p5.translate(centerX,centerY)
+    p5.translate(centerX, centerY);
     p5.beginShape();
 
-    p5.curveVertex(X[0], Y[0] );
+    p5.curveVertex(X[0], Y[0]);
 
     for (let i = 0; i < AMOUNT_OF_POINTS; i++) {
-      p5.curveVertex(X[i] , Y[i] );
+      p5.curveVertex(X[i], Y[i]);
     }
 
-    p5.curveVertex(X[0] , Y[0] );
+    p5.curveVertex(X[0], Y[0]);
 
-    p5.curveVertex(X[AMOUNT_OF_POINTS-1] , Y[AMOUNT_OF_POINTS-1] );
+    p5.curveVertex(X[AMOUNT_OF_POINTS - 1], Y[AMOUNT_OF_POINTS - 1]);
 
     // p5.endShape(p5.CLOSE);
     p5.endShape();
@@ -63,7 +67,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
     p5.clear();
