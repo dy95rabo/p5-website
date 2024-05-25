@@ -75,8 +75,12 @@ export default {
           routePrefix: "/day4",
           subRoutes: [
             {
-              title: "Fractal Tree Generator",
+              title: "L-System",
               path: "/exercise1",
+            },
+            {
+              title: "Fractal Tree Generator",
+              path: "/exercise2",
             },
           ],
         },
@@ -101,6 +105,10 @@ export default {
             {
               title: "Game of life",
               path: "/exercise1",
+            },
+            {
+              title: "Falling Sand Simulator",
+              path: "/exercise2",
             },
           ],
         },

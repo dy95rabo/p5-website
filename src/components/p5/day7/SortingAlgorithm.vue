@@ -1,6 +1,6 @@
 //Global variables
 <script setup>
-import { onBeforeUnmount } from "vue";
+import { onBeforeUnmount } from 'vue';
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -14,22 +14,20 @@ const sketch = (p5) => {
 
   p5.draw = () => {};
 
-  function isInCanvas(x, y) {
-    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
-  }
+  function isInCanvas(x,y){
+  return 0<=x && x<= p5.width && 0<=y && y<= p5.height
+}
   p5.mousePressed = () => {
-    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
+    if(!isInCanvas(p5.mouseX, p5.mouseY)){
       return;
     }
   };
 
-  p5.mouseDragged = () => {};
-
-  p5.mouseReleased = () => {};
-
   p5.mouseWheel = (event) => {
-    if (event.delta > 0) {
-    } else {
+    if(event.delta>0){
+
+    }else{
+
     }
   };
   p5.keyPressed = (event) => {

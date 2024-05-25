@@ -87,6 +87,10 @@ const router = createRouter({
       children: [
         {
           path: "exercise1",
+          component: () => import("../components/p5/day4/LSystem.vue"),
+        },
+        {
+          path: "exercise2",
           component: () => import("../components/p5/day4/Fractals.vue"),
         },
       ],
@@ -116,6 +120,10 @@ const router = createRouter({
         {
           path: "exercise1",
           component: () => import("../components/p5/day6/GameOfLife.vue"),
+        },
+        {
+          path: "exercise2",
+          component: () => import("../components/p5/day6/FallingSand.vue"),
         },
       ],
     },
