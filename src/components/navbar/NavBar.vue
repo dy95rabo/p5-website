@@ -21,19 +21,19 @@ export default {
           subRoutes: [
             {
               title: "Random lines",
-              path: "/exercise1",
+              path: "/random-lines",
             },
             {
               title: "Floating bubbles",
-              path: "/exercise2",
+              path: "/bubbles",
             },
             {
               title: "Random maze",
-              path: "/exercise3",
+              path: "/diagonal-maze",
             },
             {
               title: "Parallax squares",
-              path: "/exercise4",
+              path: "/random-squares",
             },
           ],
         },
@@ -44,15 +44,15 @@ export default {
           subRoutes: [
             {
               title: "Different color values",
-              path: "/exercise1",
+              path: "/basic-image-manipulation",
             },
             {
               title: "Max color values",
-              path: "/exercise2",
+              path: "/max-value-pixels",
             },
             {
               title: "Color Glitch",
-              path: "/exercise3",
+              path: "/image-glitch-effect",
             },
           ],
         },
@@ -62,11 +62,11 @@ export default {
           subRoutes: [
             {
               title: "Circles Fill",
-              path: "/exercise1",
+              path: "/circles-fill",
             },
             {
               title: "Pipe",
-              path: "/exercise2",
+              path: "/pipe",
             },
           ],
         },
@@ -76,11 +76,15 @@ export default {
           subRoutes: [
             {
               title: "L-System",
-              path: "/exercise1",
+              path: "/l-system",
             },
             {
               title: "Fractal Tree Generator",
-              path: "/exercise2",
+              path: "/recursive-tree-generator",
+            },
+            {
+              title: "Lightning Strike Generator",
+              path: "/lighting-generator",
             },
           ],
         },
@@ -90,11 +94,11 @@ export default {
           subRoutes: [
             {
               title: "Shakespeare-GPT",
-              path: "/exercise1",
+              path: "/shakespear-gpt",
             },
             {
               title: "WordCloud",
-              path: "/exercise2",
+              path: "/word-cloud",
             },
           ],
         },
@@ -104,11 +108,33 @@ export default {
           subRoutes: [
             {
               title: "Game of life",
-              path: "/exercise1",
+              path: "/game-of-life",
             },
             {
               title: "Falling Sand Simulator",
-              path: "/exercise2",
+              path: "/falling-sand",
+            },
+          ],
+        },
+        {
+          headline: "Day 7",
+          routePrefix: "/day7",
+          subRoutes: [
+            {
+              title: "Sorting Algorithms",
+              path: "/sorting-algorithms",
+            },
+            {
+              title: "Mandelbrot-Set",
+              path: "/mandelbrot-set",
+            },
+            {
+              title: "StarWars Hyperspace",
+              path: "/starwars-hyperspace",
+            },
+            {
+              title: "Swarm Simulator",
+              path: "/swarm-simulator",
             },
           ],
         },

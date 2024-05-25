@@ -53,7 +53,7 @@ const sketch = (p5) => {
   };
 
   p5.draw = () => {
-    p5.background(0,0,0,20)
+    p5.background(0,0,0,40)
     let word = getRandomKey(words);
     p5.textSize(Math.sqrt(words.get(word)) * 15);
     p5.textAlign(p5.CENTER);

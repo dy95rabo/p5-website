@@ -21,19 +21,19 @@ const router = createRouter({
        },
       children: [
         {
-          path: "exercise1",
+          path: "random-lines",
           component: () => import("../components/p5/day1/RandomLines.vue"),
         },
         {
-          path: "exercise2",
+          path: "bubbles",
           component: () => import("../components/p5/day1/Bubble.vue"),
         },
         {
-          path: "exercise3",
+          path: "diagonal-maze",
           component: () => import("../components/p5/day1/Diagonals.vue"),
         },
         {
-          path: "exercise4",
+          path: "random-squares",
           component: () => import("../components/p5/day1/Squares.vue"),
         },
       ],
@@ -45,16 +45,16 @@ const router = createRouter({
        },
       children: [
         {
-          path: "exercise1",
+          path: "basic-image-manipulation",
           component: () =>
             import("../components/p5/day2/ImageManipulation.vue"),
         },
         {
-          path: "exercise2",
+          path: "max-value-pixels",
           component: () => import("../components/p5/day2/ImageMaxValues.vue"),
         },
         {
-          path: "exercise3",
+          path: "image-glitch-effect",
           component: () => import("../components/p5/day2/ImageOverlayEffect.vue"),
         },
       ],
@@ -69,11 +69,11 @@ const router = createRouter({
        },
       children: [
         {
-          path: "exercise1",
+          path: "circles-fill",
           component: () => import("../components/p5/day3/CirclesFill.vue"),
         },
         {
-          path: "exercise2",
+          path: "pipe",
           component: () => import("../components/p5/day3/Pipe.vue"),
         },
       ],
@@ -86,12 +86,16 @@ const router = createRouter({
        },
       children: [
         {
-          path: "exercise1",
+          path: "l-system",
           component: () => import("../components/p5/day4/LSystem.vue"),
         },
         {
-          path: "exercise2",
+          path: "recursive-tree-generator",
           component: () => import("../components/p5/day4/Fractals.vue"),
+        },
+        {
+          path: "lighting-generator",
+          component: () => import("../components/p5/day4/LightningGenerator.vue"),
         },
       ],
     },
@@ -102,11 +106,11 @@ const router = createRouter({
        },
       children: [
         {
-          path: "exercise1",
+          path: "shakespear-gpt",
           component: () => import("../components/p5/day5/Shakespeare.vue"),
         },
         {
-          path: "exercise2",
+          path: "word-cloud",
           component: () => import("../components/p5/day5/WordCloud.vue"),
         },
       ],
@@ -118,12 +122,36 @@ const router = createRouter({
        },
       children: [
         {
-          path: "exercise1",
+          path: "game-of-life",
           component: () => import("../components/p5/day6/GameOfLife.vue"),
         },
         {
-          path: "exercise2",
+          path: "falling-sand",
           component: () => import("../components/p5/day6/FallingSand.vue"),
+        },
+      ],
+    },
+    {
+      path: "/day7",
+      meta: {
+        hideNavbar: true,
+       },
+      children: [
+        {
+          path: "sorting-algorithms",
+          component: () => import("../components/p5/day7/SortingAlgorithm.vue"),
+        },
+        {
+          path: "mandelbrot-set",
+          component: () => import("../components/p5/day7/MandelbrotSet.vue"),
+        },
+        {
+          path: "starwars-hyperspace",
+          component: () => import("../components/p5/day7/StarWarsHyperspace.vue"),
+        },
+        {
+          path: "swarm-simulator",
+          component: () => import("../components/p5/day7/SwarmSimulator.vue"),
         },
       ],
     },

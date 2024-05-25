@@ -7,11 +7,11 @@ const sketch = (p5) => {
   class Particle {
     static size = 4;
 
-    constructor(iX, iY, value) {
+    constructor(iX, iY, grid = null) {
       this.grid;
       this.iX = iX;
       this.iY = iY;
-      this.value = value;
+      this.value = 0;
       this.velocity = 2;
     }
 
@@ -98,14 +98,18 @@ const sketch = (p5) => {
         .map((y, iY) =>
           Array(numberOfSquaresInX)
             .fill(0)
-            .map((it, iX) => new Particle(iX, iY, 0))
+            .map((it, iX) => new Particle(iX, iY))
         );
-      this.grid.forEach((r) => r.forEach((p) => p.addGrid(this.grid)));
+      this.addGridToParticles()
       this.currentColor = 1;
       this.width = numberOfSquaresInX * Particle.size;
       this.height = numberOfSquaresInY * Particle.size;
       this.fillPercentage = 0.05;
       this.fillArea = 5;
+    }
+
+    addGridToParticles(){
+      this.grid.forEach((r) => r.forEach((p) => p.addGrid(this.grid)));
     }
 
     draw() {
@@ -121,6 +125,14 @@ const sketch = (p5) => {
         })
       );
       p5.pop();
+    }
+
+    resetBoard(){
+      this.grid
+        .forEach((r) =>
+            r.forEach((c) => {c.value = 0; c.velocity = 1;})
+        );
+      this.addGridToParticles();
     }
 
     updateColor() {
@@ -251,6 +263,8 @@ const sketch = (p5) => {
       case 65: //"a"
         break;
       case 27: //"ESC"
+      boardManager.resetBoard()
+
         break;
       default:
         break;

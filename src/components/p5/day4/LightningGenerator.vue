@@ -10,6 +10,9 @@ const sketch = (p5) => {
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.background(127, 127, 127);
+    p5.textSize(25);
+    p5.textAlign(p5.CENTER);
+    p5.text("Work in Progress", p5.width*0.5,p5.height*0.5 );
   };
 
   p5.draw = () => {};
