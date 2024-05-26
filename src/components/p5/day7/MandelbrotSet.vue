@@ -32,13 +32,21 @@ const sketch = (p5) => {
     }
   }
 
-  // ####################      GameBoard     #######################################
+  // ####################      p5-functions     #######################################
+  let showJuliaSet = false;
+  let juliaVersion = [];
+  let juliaCounter = 0;
+  let screenAspectRatio;
 
-  p5.preload = () => {};
+  juliaVersion.push(new ComplexNumber(-0.8, 0.156));
+  juliaVersion.push(new ComplexNumber(0.285, 0.01));
+  juliaVersion.push(new ComplexNumber(-0.835, -0.2321));
+  juliaVersion.push(new ComplexNumber(-0.7269 , 0.1889));
+  juliaVersion.push(new ComplexNumber(-0.70176, -0.3842));
+  juliaVersion.push(new ComplexNumber(0.4, 0.4));
+  // juliaVersion.push(new ComplexNumber(0.4, 0.4));
 
-  p5.setup = () => {
-    p5.createCanvas(p5.windowWidth, p5.windowHeight);
-    let screenAspectRatio = p5.height / p5.width;
+  function drawToScreen() {
     p5.background(127, 127, 127);
     p5.pixelDensity(1);
     p5.loadPixels();
@@ -46,15 +54,28 @@ const sketch = (p5) => {
     const MAX_ITERATIONS = 50;
     for (let x = 0; x < p5.width; x++) {
       for (let y = 0; y < p5.height; y++) {
-        var a = p5.map(x, 0, p5.width, -2.5, 1.5);
-        var b = p5.map(y, 0, p5.height, -2 * screenAspectRatio, 2 * screenAspectRatio);
+        var a;
+        if(showJuliaSet){
+          a = p5.map(x, 0, p5.width, -2, 2);
+        }else{
+          a = p5.map(x, 0, p5.width, -2.5, 1.5);
+
+        }
+        var b = p5.map(
+          y,
+          0,
+          p5.height,
+          -2 * screenAspectRatio,
+          2 * screenAspectRatio
+        );
 
         let c = new ComplexNumber(a, b);
         let z = new ComplexNumber(a, b);
 
         let n = 0;
         while (n < MAX_ITERATIONS) {
-          z = z.squared().add(c);
+          // z = z.squared().add(j);
+          z = z.squared().add(showJuliaSet ? juliaVersion[juliaCounter] : c);
 
           if (z.exceedBound(1000)) {
             break;
@@ -79,6 +100,14 @@ const sketch = (p5) => {
       }
     }
     p5.updatePixels();
+  }
+
+  p5.preload = () => {};
+
+  p5.setup = () => {
+    p5.createCanvas(p5.windowWidth, p5.windowHeight);
+    screenAspectRatio = p5.height / p5.width;
+    drawToScreen();
   };
 
   p5.draw = () => {};
@@ -105,12 +134,24 @@ const sketch = (p5) => {
     switch (event.keyCode) {
       case 13: //Enter
       case 32: //Space Bar
+        showJuliaSet = !showJuliaSet;
+        drawToScreen();
         break;
       case 38: //Arrow up
       case 87: //"w"
+        juliaCounter++;
+        if (juliaCounter >= juliaVersion.length) {
+          juliaCounter -= juliaVersion.length;
+        }
+        drawToScreen();
         break;
       case 40: //Arrow down
       case 83: //"s"
+        juliaCounter--;
+        if (juliaCounter < 0) {
+          juliaCounter += juliaVersion.length;
+        }
+        drawToScreen();
         break;
       case 82: //"r"
         break;
