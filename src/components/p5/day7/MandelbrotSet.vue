@@ -44,6 +44,8 @@ const sketch = (p5) => {
   juliaVersion.push(new ComplexNumber(-0.7269 , 0.1889));
   juliaVersion.push(new ComplexNumber(-0.70176, -0.3842));
   juliaVersion.push(new ComplexNumber(0.4, 0.4));
+  juliaVersion.push(new ComplexNumber(0, 0.8));
+  juliaVersion.push(new ComplexNumber(-0.4 , 0.6));
   // juliaVersion.push(new ComplexNumber(0.4, 0.4));
 
   function drawToScreen() {
