@@ -94,7 +94,7 @@ export default {
           subRoutes: [
             {
               title: "Shakespeare-GPT",
-              path: "/shakespear-gpt",
+              path: "/shakespeare-gpt",
             },
             {
               title: "WordCloud",
@@ -152,6 +152,9 @@ export default {
   ></div>
   <Transition>
     <nav
+      @wheel.prevent
+      @touchmove.prevent
+      @scroll.prevent
       @mouseover="onNavbar = true"
       @mouseleave="onNavbar = false"
       v-show="!$route.meta.hideNavbar || showNavbar || onNavbar"
@@ -172,10 +175,11 @@ export default {
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
-            <!-- ! ###########   ADD ITEMS HERE ################## -->
-            <template v-for="(route, index) of routes" :key="index">
-              <NavDropDown :route="route"></NavDropDown>
-            </template>
+            <NavDropDown
+              v-for="(route, index) of routes"
+              :key="index"
+              :route="route"
+            ></NavDropDown>
           </ul>
         </div>
       </div>

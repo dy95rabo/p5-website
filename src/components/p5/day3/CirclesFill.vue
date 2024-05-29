@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount } from "vue";
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -154,17 +154,22 @@ const sketch = (p5) => {
       let minDist;
       let numberOfTries = 0;
       do {
-        if(numberOfTries >= MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE){
-          return
+        if (numberOfTries >= MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE) {
+          return;
         }
         p = Point.createRandom();
         minDist = p.calcMinDistance();
         numberOfTries++;
       } while (minDist < MIN_RADIUS);
 
-        CIRCLE_ARR.push(
-          new Circle(p, RANDOMIZE_RADIUS?p5.random(MIN_RADIUS, p5.min(minDist, MAX_RADIUS)):minDist)
-        );
+      CIRCLE_ARR.push(
+        new Circle(
+          p,
+          RANDOMIZE_RADIUS
+            ? p5.random(MIN_RADIUS, p5.min(minDist, MAX_RADIUS))
+            : minDist
+        )
+      );
     }
 
     calcDist(other) {
@@ -200,20 +205,20 @@ const sketch = (p5) => {
       Circle.tryToCreateNewCircle(600);
       Circle.drawAll();
     }
-    if(CIRCLE_ARR.length<=0){
-      let x = p5.width/2;
-      let y = p5.height/2
+    if (CIRCLE_ARR.length <= 0) {
+      let x = p5.width / 2;
+      let y = p5.height / 2;
       p5.push();
-      p5.fill(200)
-      p5.rectMode(p5.CENTER)
-      p5.rect(x,y,x,y)
-      p5.pop()
+      p5.fill(200);
+      p5.rectMode(p5.CENTER);
+      p5.rect(x, y, x, y);
+      p5.pop();
       //Text
-      let textSize = Math.min(p5.width,p5.height)>1000?50:25
+      let textSize = Math.min(p5.width, p5.height) > 1000 ? 50 : 25;
       p5.push();
       p5.textSize(textSize);
-      p5.textAlign(p5.CENTER)
-      p5.text("Scroll up and down \n and see what happens",x,y );
+      p5.textAlign(p5.CENTER);
+      p5.text("Scroll up and down \n and see what happens", x, y);
       p5.pop();
     }
   };
@@ -221,7 +226,6 @@ const sketch = (p5) => {
   // #########################     MOUSE PRESSED       #####################################
   p5.mousePressed = () => {
     // console.log("Circles -> clicked");
-
     // autogenerate = !autogenerate;
   };
 
@@ -249,5 +253,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <P5 :sketch="sketch" />
+  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount } from "vue";
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -33,7 +33,7 @@ const sketch = (p5) => {
     static onClick(mouseX, mouseY) {
       for (const circle of BUBBLE_MAP.values()) {
         if (circle.isInside(mouseX, mouseY)) {
-          Fragment.spawn(circle.x, circle.y, p5.random(10, circle.area /15));
+          Fragment.spawn(circle.x, circle.y, p5.random(10, circle.area / 15));
           circle.pop();
         }
       }
@@ -73,7 +73,10 @@ const sketch = (p5) => {
     }
 
     update() {
-      this.vX += p5.random(-Bubble.BUBBLE_ACCELERATION, Bubble.BUBBLE_ACCELERATION);
+      this.vX += p5.random(
+        -Bubble.BUBBLE_ACCELERATION,
+        Bubble.BUBBLE_ACCELERATION
+      );
 
       if (this.vX > Bubble.BUBBLE_SPEED) {
         this.vX = Bubble.BUBBLE_SPEED;
@@ -192,7 +195,6 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    // console.log("Bubbles -> clicked");
 
     Bubble.onClick(p5.mouseX, p5.mouseY);
   };
@@ -206,7 +208,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <P5 :sketch="sketch" class="" style="height: 100%" />
+  <P5
+    :sketch="sketch"
+    @wheel.prevent
+    @touchmove.prevent
+    @scroll.prevent
+  />
 </template>
 
-<style></style>
+<style scoped></style>

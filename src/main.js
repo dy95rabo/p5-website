@@ -3,10 +3,10 @@ import "./assets/main.css";
 // import Vue from 'vue'
 
 import { createApp } from "vue";
-import { createPinia } from "pinia";
+// import { createPinia } from "pinia";
 // import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+// import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,11 +20,11 @@ const app = createApp(App);
 // app.use(BootstrapVue)
 // app.use(IconsPlugin)
 
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
+// const pinia = createPinia();
+// pinia.use(piniaPluginPersistedstate);
 
 app.use(autoAnimatePlugin);
-app.use(pinia);
+// app.use(pinia);
 app.use(p5vue);
 app.use(router);
 

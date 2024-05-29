@@ -22,9 +22,13 @@ export default {
 
 <template>
   <div @contextmenu.prevent="handler">
-    <NavBar />
+    <NavBar  />
     <RouterView />
   </div>
 </template>
 
-<style scoped></style>
+<style>
+.no-scroll {
+  overflow: hidden;
+}
+</style>

@@ -106,7 +106,7 @@ const router = createRouter({
        },
       children: [
         {
-          path: "shakespear-gpt",
+          path: "shakespeare-gpt",
           component: () => import("../components/p5/day5/Shakespeare.vue"),
         },
         {
