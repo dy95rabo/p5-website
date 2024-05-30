@@ -21,19 +21,19 @@ const router = createRouter({
        },
       children: [
         {
-          path: "random-lines",
+          path: "01-random-lines",
           component: () => import("../components/p5/day1/RandomLines.vue"),
         },
         {
-          path: "bubbles",
+          path: "02-floating-bubbles",
           component: () => import("../components/p5/day1/Bubble.vue"),
         },
         {
-          path: "diagonal-maze",
+          path: "03-random-maze",
           component: () => import("../components/p5/day1/Diagonals.vue"),
         },
         {
-          path: "random-squares",
+          path: "04-random-squares",
           component: () => import("../components/p5/day1/Squares.vue"),
         },
       ],
@@ -45,16 +45,16 @@ const router = createRouter({
        },
       children: [
         {
-          path: "basic-image-manipulation",
+          path: "01-image-pixel-manipulation",
           component: () =>
             import("../components/p5/day2/ImageManipulation.vue"),
         },
         {
-          path: "max-value-pixels",
+          path: "02-max-pixel-value",
           component: () => import("../components/p5/day2/ImageMaxValues.vue"),
         },
         {
-          path: "image-glitch-effect",
+          path: "03-glitch-effect",
           component: () => import("../components/p5/day2/ImageOverlayEffect.vue"),
         },
       ],
@@ -64,16 +64,13 @@ const router = createRouter({
       meta: {
         hideNavbar: true,
        },
-      meta: {
-        hideNavbar: true,
-       },
       children: [
         {
-          path: "circles-fill",
+          path: "01-circle-fill",
           component: () => import("../components/p5/day3/CirclesFill.vue"),
         },
         {
-          path: "pipe",
+          path: "02-pipe",
           component: () => import("../components/p5/day3/Pipe.vue"),
         },
       ],
@@ -86,15 +83,15 @@ const router = createRouter({
        },
       children: [
         {
-          path: "l-system",
+          path: "01-l-system",
           component: () => import("../components/p5/day4/LSystem.vue"),
         },
         {
-          path: "recursive-tree-generator",
+          path: "02-tree-generator",
           component: () => import("../components/p5/day4/Fractals.vue"),
         },
         {
-          path: "lighting-generator",
+          path: "03-lighting-generator",
           component: () => import("../components/p5/day4/LightningGenerator.vue"),
         },
       ],
@@ -103,14 +100,15 @@ const router = createRouter({
       path: "/day5",
       meta: {
         hideNavbar: true,
+
        },
       children: [
         {
-          path: "shakespeare-gpt",
+          path: "01-shakespear-gpt",
           component: () => import("../components/p5/day5/Shakespeare.vue"),
         },
         {
-          path: "word-cloud",
+          path: "02-word-cloud",
           component: () => import("../components/p5/day5/WordCloud.vue"),
         },
       ],
@@ -122,11 +120,11 @@ const router = createRouter({
        },
       children: [
         {
-          path: "game-of-life",
+          path: "01-conway-game-of-life",
           component: () => import("../components/p5/day6/GameOfLife.vue"),
         },
         {
-          path: "falling-sand",
+          path: "02-falling-sand-simulator",
           component: () => import("../components/p5/day6/FallingSand.vue"),
         },
       ],
@@ -138,19 +136,19 @@ const router = createRouter({
        },
       children: [
         {
-          path: "sorting-algorithms",
-          component: () => import("../components/p5/day7/SortingAlgorithm.vue"),
-        },
-        {
-          path: "mandelbrot-set",
+          path: "01-mandelbrot-set",
           component: () => import("../components/p5/day7/MandelbrotSet.vue"),
         },
         {
-          path: "starwars-hyperspace",
+          path: "02-sorting-algorithms",
+          component: () => import("../components/p5/day7/SortingAlgorithm.vue"),
+        },
+        {
+          path: "03-starwars-hyperspace",
           component: () => import("../components/p5/day7/StarWarsHyperspace.vue"),
         },
         {
-          path: "swarm-simulator",
+          path: "04-swarm-simulator",
           component: () => import("../components/p5/day7/SwarmSimulator.vue"),
         },
       ],

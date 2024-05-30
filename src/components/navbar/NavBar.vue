@@ -14,132 +14,13 @@ export default {
     return {
       showNavbar: false,
       onNavbar: false,
-      routes: [
-        {
-          headline: "Day 1",
-          routePrefix: "/day1",
-          subRoutes: [
-            {
-              title: "Random lines",
-              path: "/random-lines",
-            },
-            {
-              title: "Floating bubbles",
-              path: "/bubbles",
-            },
-            {
-              title: "Random maze",
-              path: "/diagonal-maze",
-            },
-            {
-              title: "Parallax squares",
-              path: "/random-squares",
-            },
-          ],
-        },
-        {
-          headline: "Day 2",
-          routePrefix: "/day2",
-
-          subRoutes: [
-            {
-              title: "Different color values",
-              path: "/basic-image-manipulation",
-            },
-            {
-              title: "Max color values",
-              path: "/max-value-pixels",
-            },
-            {
-              title: "Color Glitch",
-              path: "/image-glitch-effect",
-            },
-          ],
-        },
-        {
-          headline: "Day 3",
-          routePrefix: "/day3",
-          subRoutes: [
-            {
-              title: "Circles Fill",
-              path: "/circles-fill",
-            },
-            {
-              title: "Pipe",
-              path: "/pipe",
-            },
-          ],
-        },
-        {
-          headline: "Day 4",
-          routePrefix: "/day4",
-          subRoutes: [
-            {
-              title: "L-System",
-              path: "/l-system",
-            },
-            {
-              title: "Fractal Tree Generator",
-              path: "/recursive-tree-generator",
-            },
-            {
-              title: "Lightning Strike Generator",
-              path: "/lighting-generator",
-            },
-          ],
-        },
-        {
-          headline: "Day 5",
-          routePrefix: "/day5",
-          subRoutes: [
-            {
-              title: "Shakespeare-GPT",
-              path: "/shakespeare-gpt",
-            },
-            {
-              title: "WordCloud",
-              path: "/word-cloud",
-            },
-          ],
-        },
-        {
-          headline: "Day 6",
-          routePrefix: "/day6",
-          subRoutes: [
-            {
-              title: "Game of life",
-              path: "/game-of-life",
-            },
-            {
-              title: "Falling Sand Simulator",
-              path: "/falling-sand",
-            },
-          ],
-        },
-        {
-          headline: "Day 7",
-          routePrefix: "/day7",
-          subRoutes: [
-            {
-              title: "Sorting Algorithms",
-              path: "/sorting-algorithms",
-            },
-            {
-              title: "Mandelbrot-Set",
-              path: "/mandelbrot-set",
-            },
-            {
-              title: "StarWars Hyperspace",
-              path: "/starwars-hyperspace",
-            },
-            {
-              title: "Swarm Simulator",
-              path: "/swarm-simulator",
-            },
-          ],
-        },
-      ],
     };
+  },
+  props:{
+    routes:{
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>
