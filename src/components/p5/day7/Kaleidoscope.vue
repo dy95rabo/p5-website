@@ -2,17 +2,20 @@
 <script setup>
 import { onBeforeUnmount } from "vue";
 let p5Instance = null;
+let div
 const sketch = (p5) => {
   p5Instance = p5;
 
   p5.preload = () => {};
 
   p5.setup = () => {
-    p5.createCanvas(p5.windowWidth, p5.windowHeight);
-    p5.background(127, 127, 127);
-    p5.textSize(25);
-    p5.textAlign(p5.CENTER);
-    p5.text("Work in Progress", p5.width*0.5,p5.height*0.5 );
+    // p5.createCanvas(p5.windowWidth, p5.windowHeight);
+    // p5.background(127, 127, 127);
+    // p5.textSize(25);
+    // p5.textAlign(p5.CENTER);
+    // p5.text("Work in Progress", p5.width*0.5,p5.height*0.5 );
+    div = p5.createElement("h1","Work in Progress")   
+    div.attribute("class","fancy-div")
   };
 
   p5.draw = () => {};
@@ -75,3 +78,11 @@ onBeforeUnmount(() => {
 <template>
   <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent/>
 </template>
+
+
+<style>
+.fancy-div{
+  color: black;
+  text-align: center;
+}
+</style>

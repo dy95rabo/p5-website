@@ -151,6 +151,10 @@ const router = createRouter({
           path: "04-swarm-simulator",
           component: () => import("../components/p5/day7/SwarmSimulator.vue"),
         },
+        {
+          path: "05-kaleidoscope",
+          component: () => import("../components/p5/day7/Kaleidoscope.vue"),
+        },
       ],
     },
   ],

@@ -185,6 +185,13 @@ export default {
               description:
                 "please don't knock on the glass, it scares the developer",
             },
+            {
+              title: "Kaleidoscope",
+              path: "/05-kaleidoscope",
+              headline: "Work In progress",
+              description:
+                "please don't knock on the glass, it scares the developer",
+            },
           ],
         },
       ],
