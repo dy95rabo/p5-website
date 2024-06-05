@@ -1,8 +1,11 @@
-//Global variables
 <script setup>
-import { onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref } from "vue";
+import PopUpCard from "@/components/PopUpCard.vue";
 let p5Instance = null;
-let div
+let div;
+const showHelp = ref(true);
+// let showHelp = false
+
 const sketch = (p5) => {
   p5Instance = p5;
 
@@ -14,8 +17,8 @@ const sketch = (p5) => {
     // p5.textSize(25);
     // p5.textAlign(p5.CENTER);
     // p5.text("Work in Progress", p5.width*0.5,p5.height*0.5 );
-    div = p5.createElement("h1","Work in Progress")   
-    div.attribute("class","fancy-div")
+    div = p5.createElement("h1", "Work in Progress");
+    div.attribute("class", "fancy-div");
   };
 
   p5.draw = () => {};
@@ -52,6 +55,7 @@ const sketch = (p5) => {
       case 82: //"r"
         break;
       case 72: //"h"
+        showHelp.value = !showHelp.value;
         break;
       case 39: //Arrow Right
       case 68: //"d"
@@ -76,13 +80,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent/>
+  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <pop-up-card :show-pop-up="showHelp">
+    <template v-slot:title>
+      Title
+    </template>
+    <p>This is the help card</p>
+  </pop-up-card>
 </template>
 
-
 <style>
-.fancy-div{
-  color: black;
-  text-align: center;
-}
 </style>
