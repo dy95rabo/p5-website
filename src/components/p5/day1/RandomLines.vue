@@ -5,12 +5,9 @@ const showHelp = ref(false);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
-  // const baseCount = 30;
-  // let count = baseCount;
   const lastMode = 1;
   let mode = 0;
-  let bg1 = p5.color(0, 0, 0, 40);
-  // let bg2 = p5.color(0, 0, 0, 80);
+  let bg = p5.color(0, 0, 0, 40);
 
   let p1;
   let p2;
@@ -22,30 +19,23 @@ const sketch = (p5) => {
   };
 
   p5.draw = () => {
-    // if (count > 0) {
-      p5.background(bg1);
-      // count--;
-    // } else {
-    //   p5.background(bg2);
-    //   count = baseCount;
-    // }
-
+    p5.background(bg);
     p5.strokeWeight(4);
     p5.stroke(p5.random(360), 100, 100);
     switch (mode) {
       case 0:
-        p1 = p5.createVector(p5.width / 2, p5.height/2);
-        p2 = p5.createVector(p5.random(0, p5.width),p5.random(0, p5.height));
+        p1 = p5.createVector(p5.width / 2, p5.height / 2);
+        p2 = p5.createVector(p5.random(0, p5.width), p5.random(0, p5.height));
         break;
       case 1:
         p1 = p2;
-        p2 = p5.createVector(p5.random(0, p5.width),p5.random(0, p5.height));
+        p2 = p5.createVector(p5.random(0, p5.width), p5.random(0, p5.height));
         break;
       default:
         break;
     }
 
-    p5.line(p1.x,p1.y,p2.x,p2.y);
+    p5.line(p1.x, p1.y, p2.x, p2.y);
   };
 
   function isInCanvas(x, y) {
@@ -63,12 +53,12 @@ const sketch = (p5) => {
       mode++;
     }
     if (p5.mouseButton === p5.RIGHT) {
-     mode--;
+      mode--;
     }
-    if(mode>lastMode){
+    if (mode > lastMode) {
       mode = 0;
     }
-    if(mode<0){
+    if (mode < 0) {
       mode = lastMode;
     }
   };
