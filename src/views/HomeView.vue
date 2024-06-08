@@ -11,7 +11,7 @@ const props = defineProps(["routes"]);
 onMounted(() => {
   useEventListener(document, "keydown", (e) => {
     if (e.code == "Escape") {
-      sessionStorage.removeItem("visitedAlready")
+      sessionStorage.removeItem("visitedAlready");
     }
     if (e.code == "KeyH") {
       if (visitForFirstTime.value) {
@@ -50,14 +50,11 @@ onMounted(() => {
   </div>
 
   <pop-up-card :show-pop-up="showHelp || visitForFirstTime">
-    <div class="m-5">
-      <h1 class="text-warning display-3">Help</h1>
-      <p class="lead">
-        <strong>
-          You can Press "h" on any screen to open/close the help panel for that
-          screen
-        </strong>
-      </p>
-    </div>
+    <p class="lead">
+      <strong>
+        You can Press "h" on any screen to open/close the help panel for that
+        screen
+      </strong>
+    </p>
   </pop-up-card>
 </template>

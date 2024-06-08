@@ -5,34 +5,72 @@ const showHelp = ref(false);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
+  // const baseCount = 30;
+  // let count = baseCount;
+  const lastMode = 1;
+  let mode = 0;
+  let bg1 = p5.color(0, 0, 0, 40);
+  // let bg2 = p5.color(0, 0, 0, 80);
+
+  let p1;
+  let p2;
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.background(0);
-    p5.frameRate(60);
+    p5.frameRate(30);
+    p5.colorMode(p5.HSB);
   };
 
   p5.draw = () => {
-    p5.background(0, 0, 0, 5);
+    // if (count > 0) {
+      p5.background(bg1);
+      // count--;
+    // } else {
+    //   p5.background(bg2);
+    //   count = baseCount;
+    // }
 
-    p5.stroke(p5.random(255), p5.random(255), p5.random(255));
-    let x = p5.random(0, p5.width);
-    let y = p5.random(0, p5.height);
+    p5.strokeWeight(4);
+    p5.stroke(p5.random(360), 100, 100);
+    switch (mode) {
+      case 0:
+        p1 = p5.createVector(p5.width / 2, p5.height/2);
+        p2 = p5.createVector(p5.random(0, p5.width),p5.random(0, p5.height));
+        break;
+      case 1:
+        p1 = p2;
+        p2 = p5.createVector(p5.random(0, p5.width),p5.random(0, p5.height));
+        break;
+      default:
+        break;
+    }
 
-    p5.line(p5.width / 2, p5.height / 2, x, y);
+    p5.line(p1.x,p1.y,p2.x,p2.y);
   };
 
   function isInCanvas(x, y) {
     return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
   }
-  
+
   p5.mousePressed = () => {
-    showHelp.value = false
-    // console.log("Random Lines -> clicked");
-    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+    showHelp.value = false;
+    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
     p5.clear();
     p5.background(0, 0, 0);
+    if (p5.mouseButton === p5.LEFT) {
+      mode++;
+    }
+    if (p5.mouseButton === p5.RIGHT) {
+     mode--;
+    }
+    if(mode>lastMode){
+      mode = 0;
+    }
+    if(mode<0){
+      mode = lastMode;
+    }
   };
   p5.keyPressed = (event) => {
     switch (event.keyCode) {
@@ -76,12 +114,18 @@ const keyInput = [
   },
   {
     keys: "'click'",
-    function: "reset screen",
+    function: "change line mode",
   },
 ];
 </script>
 
 <template>
-  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <P5
+    style="overflow: hidden; height: 100dvh"
+    :sketch="sketch"
+    @wheel.prevent
+    @touchmove.prevent
+    @scroll.prevent
+  />
   <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>

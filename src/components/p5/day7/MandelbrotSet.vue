@@ -195,6 +195,10 @@ const keyInput = [
     keys: "'w'/'s' or 'Arrow-Up'/'Arrow-down'",
     function: "cycle through different presets of the Julia set",
   },
+  {
+    keys: "'o'",
+    function: "change the parameters of the Julia Sets (NOT AVAILABLE YET)",
+  },
   
 
 ];
