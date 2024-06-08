@@ -26,6 +26,7 @@ const sketch = (p5) => {
   }
   
   p5.mousePressed = () => {
+    showHelp.value = false
     // console.log("Random Lines -> clicked");
     if(!isInCanvas(p5.mouseX, p5.mouseY)){
       return;
@@ -72,6 +73,10 @@ const keyInput = [
   {
     keys: "'h'",
     function: "show/hide help",
+  },
+  {
+    keys: "'click'",
+    function: "reset screen",
   },
 ];
 </script>

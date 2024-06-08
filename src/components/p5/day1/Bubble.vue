@@ -219,6 +219,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
+    showHelp.value = false
     Bubble.onClick(p5.createVector(p5.mouseX, p5.mouseY));
   };
   p5.keyPressed = (event) => {
@@ -260,6 +261,10 @@ const keyInput = [
   {
     keys: "'h'",
     function: "show/hide help",
+  },
+  {
+    keys: "'click' on bubble",
+    function: "pop bubble and generate particles with physics simulation",
   },
 ];
 </script>

@@ -40,6 +40,7 @@ const sketch = (p5) => {
   }
   
   p5.mousePressed = () => {
+    showHelp.value = false
     // console.log("Diagonal Lines -> clicked");
 
     if(!isInCanvas(p5.mouseX, p5.mouseY)){
@@ -86,6 +87,14 @@ const keyInput = [
   {
     keys: "'h'",
     function: "show/hide help",
+  },
+  {
+    keys: "'click'",
+    function: "create new randomized maze",
+  },
+  {
+    keys: "'move mouse pointer'",
+    function: "change line thickness without changing the maze layout",
   },
 ];
 </script>

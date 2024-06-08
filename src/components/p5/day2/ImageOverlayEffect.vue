@@ -127,6 +127,7 @@ const sketch = (p5) => {
   }
   
   p5.mousePressed = () => {
+    showHelp.value = false
     if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
@@ -171,6 +172,14 @@ const keyInput = [
   {
     keys: "'h'",
     function: "show/hide help",
+  },
+  {
+    keys: "'click'",
+    function: "change to different image version",
+  },
+  {
+    keys: "'move mouse cursor'",
+    function: "parallax glitch effect",
   },
 ];
 </script>

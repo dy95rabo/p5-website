@@ -3,7 +3,7 @@
     <div
       class="card position-absolute top-50 start-50 translate-middle bg-secondary"
     >
-      <div class="card-body">
+      <div class="card-body  m-4">
         <header>
           <slot name="title" class="card-title"></slot>
         </header>

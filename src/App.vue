@@ -106,13 +106,13 @@ export default {
               description:
                 "Generate a new Random Tree with every click (can be a bit slow!!)",
             },
-            {
-              title: "Lightning Strike Generator",
-              path: "/03-lighting-generator",
-              headline: "Work In progress",
-              description:
-                "please don't knock on the glass, it scares the developer",
-            },
+            // {
+            //   title: "Lightning Strike Generator",
+            //   path: "/03-lighting-generator",
+            //   headline: "Work In progress",
+            //   description:
+            //     "please don't knock on the glass, it scares the developer",
+            // },
           ],
         },
         {
@@ -164,13 +164,13 @@ export default {
               description:
                 "Generate a Colorful version of the Mandelbrot Set or a variation of Julia Sets",
             },
-            {
-              title: "Sorting Algorithms",
-              path: "/02-sorting-algorithms",
-              headline: "Work In progress",
-              description:
-                "please don't knock on the glass, it scares the developer",
-            },
+            // {
+            //   title: "Sorting Algorithms",
+            //   path: "/02-sorting-algorithms",
+            //   headline: "Work In progress",
+            //   description:
+            //     "please don't knock on the glass, it scares the developer",
+            // },
             {
               title: "StarWars Hyperspace",
               path: "/03-starwars-hyperspace",
@@ -178,20 +178,20 @@ export default {
               description:
                 "Experience the thrill of interstellar travel",
             },
-            {
-              title: "Swarm Simulator",
-              path: "/04-swarm-simulator",
-              headline: "Work In progress",
-              description:
-                "please don't knock on the glass, it scares the developer",
-            },
-            {
-              title: "Kaleidoscope",
-              path: "/05-kaleidoscope",
-              headline: "Work In progress",
-              description:
-                "please don't knock on the glass, it scares the developer",
-            },
+            // {
+            //   title: "Swarm Simulator",
+            //   path: "/04-swarm-simulator",
+            //   headline: "Work In progress",
+            //   description:
+            //     "please don't knock on the glass, it scares the developer",
+            // },
+            // {
+            //   title: "Kaleidoscope",
+            //   path: "/05-kaleidoscope",
+            //   headline: "Work In progress",
+            //   description:
+            //     "please don't knock on the glass, it scares the developer",
+            // },
           ],
         },
       ],

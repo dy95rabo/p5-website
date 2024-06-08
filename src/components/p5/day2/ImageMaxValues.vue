@@ -41,7 +41,7 @@ const sketch = (p5) => {
 
   p5.draw = () => { };
 
-  p5.mousePressed = () => { };
+  p5.mousePressed = () => {     showHelp.value = false};
   p5.keyPressed = (event) => {
     switch (event.keyCode) {
       case 13: //Enter

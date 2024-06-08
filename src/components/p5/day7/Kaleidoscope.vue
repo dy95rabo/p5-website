@@ -26,6 +26,7 @@ const sketch = (p5) => {
     return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
   }
   p5.mousePressed = () => {
+    showHelp.value = false
     if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }

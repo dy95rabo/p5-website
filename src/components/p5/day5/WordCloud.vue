@@ -64,7 +64,9 @@ const sketch = (p5) => {
 
   };
 
-  p5.mousePressed = () => {};
+  p5.mousePressed = () => {
+    showHelp.value = false
+  };
 
   p5.mouseWheel = (event) => {};
 

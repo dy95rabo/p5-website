@@ -84,6 +84,7 @@ const sketch = (p5) => {
     return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
   }
   p5.mousePressed = () => {
+    showHelp.value = false;
     if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
@@ -148,10 +149,28 @@ const keyInput = [
     keys: "'h'",
     function: "show/hide help",
   },
+  {
+    keys: "'click'",
+    function: "execute the rules of the L-system",
+  },
+  {
+    keys: "'ESC'",
+    function: "reset L-system",
+  },
+  {
+    keys: "'o'",
+    function: "change the parameters of the L-system (NOT AVAILABLE YET)",
+  },
 ];
 </script>
 
 <template>
-  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <P5
+    style="overflow: hidden; height: 100dvh"
+    :sketch="sketch"
+    @wheel.prevent
+    @touchmove.prevent
+    @scroll.prevent
+  />
   <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>

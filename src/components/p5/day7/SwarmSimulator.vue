@@ -13,25 +13,24 @@ const sketch = (p5) => {
     p5.background(127, 127, 127);
     p5.textSize(25);
     p5.textAlign(p5.CENTER);
-    p5.text("Work in Progress", p5.width*0.5,p5.height*0.5 );
+    p5.text("Work in Progress", p5.width * 0.5, p5.height * 0.5);
   };
 
   p5.draw = () => {};
 
-  function isInCanvas(x,y){
-  return 0<=x && x<= p5.width && 0<=y && y<= p5.height
-}
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
   p5.mousePressed = () => {
-    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+    showHelp.value = false;
+    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
   };
 
   p5.mouseWheel = (event) => {
-    if(event.delta>0){
-
-    }else{
-
+    if (event.delta > 0) {
+    } else {
     }
   };
   p5.keyPressed = (event) => {
@@ -48,7 +47,7 @@ const sketch = (p5) => {
       case 82: //"r"
         break;
       case 72: //"h"
-      showHelp.value = !showHelp.value;
+        showHelp.value = !showHelp.value;
         break;
       case 39: //Arrow Right
       case 68: //"d"
@@ -79,7 +78,12 @@ const keyInput = [
 </script>
 
 <template>
-  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <P5
+    style="overflow: hidden; height: 100dvh"
+    :sketch="sketch"
+    @wheel.prevent
+    @touchmove.prevent
+    @scroll.prevent
+  />
   <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>
-

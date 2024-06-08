@@ -120,6 +120,7 @@ const sketch = (p5) => {
   p5.draw = () => {};
 
   p5.mousePressed = () => {
+    showHelp.value = false
     // console.log("Fractals -> clicked");
 
     if (isInCanvas(p5.mouseX, p5.mouseY)) {
@@ -179,6 +180,10 @@ const keyInput = [
   {
     keys: "'h'",
     function: "show/hide help",
+  },
+  {
+    keys: "'click'",
+    function: "generate a new random tree (depending on the screen size this can be slow)",
   },
 ];
 </script>

@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeUnmount, ref } from "vue";
 import PopUpCard from "@/components/PopUpCard.vue";
-const showHelp = ref(false);
+const showHelp = ref(true);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -11,41 +11,61 @@ const sketch = (p5) => {
   const POINT_SIZE = 15;
   const MIN_RADIUS = 1;
   const MAX_RADIUS = 300;
-  const MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE = 5;
+  const MAX_NUMBER_OF_TRIES_TO_GENERATE_A_NEW_CIRCLE = 5;
   const RANDOMIZE_RADIUS = false;
   let autogenerate = false;
 
-  // ########################    COLOR     #####################################
-  class Color {
-    constructor(r, g, b) {
-      this.r = r;
-      this.g = g;
-      this.b = b;
-    }
-
-    static createRandom() {
-      return new Color(p5.random(255), p5.random(255), p5.random(255));
-    }
-
-    setBackground() {
-      p5.background(this.r, this.g, this.b);
-    }
-
-    setStroke() {
-      p5.stroke(this.r, this.g, this.b);
-    }
-
-    setFill() {
-      p5.fill(this.r, this.g, this.b);
-    }
-
-    static resetStroke() {
-      p5.stroke(0);
-    }
-    static resetFill() {
-      p5.stroke(255, 255, 255);
-    }
+  function randomColor() {
+    return p5.color(p5.random(255), p5.random(255), p5.random(255));
   }
+
+  // function drawInfoWindow() {
+  //   let x = p5.width / 2;
+  //   let y = p5.height / 2;
+  //   p5.push();
+  //   p5.fill(200);
+  //   p5.rectMode(p5.CENTER);
+  //   p5.rect(x, y, x, y);
+  //   p5.pop();
+  //   let textSize = Math.min(p5.width, p5.height) > 1000 ? 50 : 25;
+  //   p5.push();
+  //   p5.textSize(textSize);
+  //   p5.textAlign(p5.CENTER);
+  //   p5.text("Scroll up and down \n and see what happens", x, y);
+  //   p5.pop();
+  // }
+
+  // // ########################    COLOR     #####################################
+  // class Color {
+  //   constructor(r, g, b) {
+  //     this.r = r;
+  //     this.g = g;
+  //     this.b = b;
+  //   }
+
+  //   static createRandom() {
+  //     return new Color(p5.random(255), p5.random(255), p5.random(255));
+  //   }
+
+  //   setBackground() {
+  //     p5.background(this.r, this.g, this.b);
+  //   }
+
+  //   setStroke() {
+  //     p5.stroke(this.r, this.g, this.b);
+  //   }
+
+  //   setFill() {
+  //     p5.fill(this.r, this.g, this.b);
+  //   }
+
+  //   static resetStroke() {
+  //     p5.stroke(0);
+  //   }
+  //   static resetFill() {
+  //     p5.stroke(255, 255, 255);
+  //   }
+  // }
 
   // ####################      POINT     #######################################
   class Point {
@@ -64,7 +84,8 @@ const sketch = (p5) => {
 
     draw() {
       p5.push();
-      Color.createRandom().setStroke();
+      // Color.createRandom().setStroke();
+      p5.stroke(randomColor());
       p5.strokeWeight(POINT_SIZE);
       p5.point(this.x, this.y);
       p5.pop();
@@ -72,7 +93,8 @@ const sketch = (p5) => {
 
     drawLine(point) {
       p5.push();
-      Color.createRandom().setStroke();
+      // Color.createRandom().setStroke();
+      p5.stroke(randomColor());
       p5.strokeWeight(2);
       p5.line(this.x, this.y, point.x, point.y);
       p5.pop();
@@ -110,7 +132,8 @@ const sketch = (p5) => {
   // ###########################     CIRCLE     ###################################
 
   class Circle {
-    constructor(center, radius, color = Color.createRandom()) {
+    // constructor(center, radius, color = Color.createRandom()) {
+    constructor(center, radius, color = randomColor()) {
       this.center = center;
       this.radius = radius;
       this.color = color;
@@ -131,7 +154,8 @@ const sketch = (p5) => {
     draw() {
       p5.push();
       p5.strokeWeight(0);
-      this.color.setFill();
+      // this.color.setFill();
+      p5.fill(this.color);
       p5.circle(this.center.x, this.center.y, this.radius * 2);
       p5.pop();
     }
@@ -156,7 +180,7 @@ const sketch = (p5) => {
       let minDist;
       let numberOfTries = 0;
       do {
-        if (numberOfTries >= MAX_NUMBER_OF_TRIES_TO__GENERATE_A_NEW_CIRCLE) {
+        if (numberOfTries >= MAX_NUMBER_OF_TRIES_TO_GENERATE_A_NEW_CIRCLE) {
           return;
         }
         p = Point.createRandom();
@@ -194,11 +218,13 @@ const sketch = (p5) => {
   }
 
   // #######################       SETUP      ################################
-  const BACKGROUND_COLOR = new Color(100, 100, 100);
+  // const BACKGROUND_COLOR = new Color(100, 100, 100);
+  const BACKGROUND_GRAY_SCALE = 100;
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
-    BACKGROUND_COLOR.setBackground();
-    p5.frameRate(120);
+    // BACKGROUND_COLOR.setBackground();
+    p5.background(BACKGROUND_GRAY_SCALE);
+    p5.frameRate(60);
   };
 
   // #########################     DRAW       #####################################
@@ -208,34 +234,19 @@ const sketch = (p5) => {
       Circle.drawAll();
     }
     // if (CIRCLE_ARR.length <= 0) {
-      // let x = p5.width / 2;
-      // let y = p5.height / 2;
-      // p5.push();
-      // p5.fill(200);
-      // p5.rectMode(p5.CENTER);
-      // p5.rect(x, y, x, y);
-      // p5.pop();
-      //Text
-      // let textSize = Math.min(p5.width, p5.height) > 1000 ? 50 : 25;
-      // p5.push();
-      // p5.textSize(textSize);
-      // p5.textAlign(p5.CENTER);
-      // p5.text("Scroll up and down \n and see what happens", x, y);
-      // p5.pop();
+    // drawInfoWindow();
     // }
   };
 
   // #########################     MOUSE PRESSED       #####################################
-  p5.mousePressed = () => {
-    // console.log("Circles -> clicked");
-    // autogenerate = !autogenerate;
-  };
+  p5.mousePressed = () => {    showHelp.value = false};
 
   // #########################     MOUSE WHEEL       #####################################
   p5.mouseWheel = (event) => {
     if (!autogenerate) {
       p5.clear();
-      BACKGROUND_COLOR.setBackground();
+      // BACKGROUND_COLOR.setBackground();
+      p5.background(BACKGROUND_GRAY_SCALE);
       if (event.delta > 0) {
         Circle.generate(5);
       } else {
@@ -244,6 +255,7 @@ const sketch = (p5) => {
       Circle.drawAll();
     }
   };
+
   p5.keyPressed = (event) => {
     switch (event.keyCode) {
       case 13: //Enter
@@ -293,7 +305,12 @@ const keyInput = [
 </script>
 
 <template>
-  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <P5
+    style="overflow: hidden; height: 100dvh"
+    :sketch="sketch"
+    @wheel.prevent
+    @touchmove.prevent
+    @scroll.prevent
+  />
   <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>
-

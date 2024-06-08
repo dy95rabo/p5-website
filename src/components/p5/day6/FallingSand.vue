@@ -234,6 +234,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed= ()=>{
+    showHelp.value = false
     mouseIsDown = true;
   }
 
@@ -284,6 +285,10 @@ const keyInput = [
   {
     keys: "'h'",
     function: "show/hide help",
+  },
+  {
+    keys: "'hold mouse down'",
+    function: "generate falling sand at cursor location",
   },
 ];
 </script>

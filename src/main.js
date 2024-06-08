@@ -15,6 +15,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import App from "./App.vue";
 import router from "./router";
 import p5vue from "p5vue";
+import VueCookies from "vue-cookies"
 
 const app = createApp(App);
 // app.use(BootstrapVue)
@@ -27,6 +28,7 @@ app.use(autoAnimatePlugin);
 // app.use(pinia);
 app.use(p5vue);
 app.use(router);
+// app.use(VueCookies);
 
 app.mount("#app");
 

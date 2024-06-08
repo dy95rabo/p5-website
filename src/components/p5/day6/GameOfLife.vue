@@ -2,7 +2,7 @@
 //https://www.google.com/search?client=firefox-b-d&q=game+of+lifeh
 import { onBeforeUnmount, ref } from "vue";
 import PopUpCard from "@/components/PopUpCard.vue";
-const showHelp = ref(false);
+const showHelp = ref(true);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -596,7 +596,7 @@ const sketch = (p5) => {
   };
 
   p5.mousePressed = () => {
-    // console.log("Way of Life -> clicked");
+    showHelp.value = false
     if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
@@ -668,9 +668,35 @@ const keyInput = [
     function: "show/hide help",
   },
   {
+    keys: "'click'",
+    function: "select square to insert",
+  },
+  {
     keys: "'w'/'s', \n arrow-up/arrow-down",
     function: "Select a predefined object to insert into the world",
   },
+  {
+    keys: "'r'",
+    function: "rotate the currently selected preset clockwise",
+  },
+  {
+    keys: "'a'/'f', \n arrow-left/arrow-right",
+    function: "Select a predefined color for use",
+  },
+  {
+    keys: "'scroll-up'/'scroll-down'",
+    function: "increase/decrease the frame rate (1-60)",
+  },
+  {
+    keys: "'enter'/'space bar'",
+    function: "toggle the animation on/off",
+  },
+  {
+    keys: "'ESC'",
+    function: "reset the grid",
+  },
+
+
 ];
 </script>
 
