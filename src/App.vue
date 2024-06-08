@@ -174,9 +174,9 @@ export default {
             {
               title: "StarWars Hyperspace",
               path: "/03-starwars-hyperspace",
-              headline: "Work In progress",
+              headline: "StarWars hyperspace simulation",
               description:
-                "please don't knock on the glass, it scares the developer",
+                "Experience the thrill of interstellar travel",
             },
             {
               title: "Swarm Simulator",

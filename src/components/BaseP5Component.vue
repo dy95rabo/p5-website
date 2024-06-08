@@ -73,5 +73,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent/>
+  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent/>
 </template>

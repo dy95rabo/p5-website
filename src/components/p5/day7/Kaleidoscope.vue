@@ -1,10 +1,9 @@
 <script setup>
 import { onBeforeUnmount, ref } from "vue";
 import PopUpCard from "@/components/PopUpCard.vue";
+const showHelp = ref(false);
 let p5Instance = null;
 let div;
-const showHelp = ref(true);
-// let showHelp = false
 
 const sketch = (p5) => {
   p5Instance = p5;
@@ -17,8 +16,8 @@ const sketch = (p5) => {
     // p5.textSize(25);
     // p5.textAlign(p5.CENTER);
     // p5.text("Work in Progress", p5.width*0.5,p5.height*0.5 );
-    div = p5.createElement("h1", "Work in Progress");
-    div.attribute("class", "fancy-div");
+    // div = p5.createElement("h1", "Work in Progress");
+    // div.attribute("class", "fancy-div");
   };
 
   p5.draw = () => {};
@@ -77,17 +76,16 @@ onBeforeUnmount(() => {
     p5Instance.remove();
   }
 });
+const keyInput = [
+  {
+    keys: "'h'",
+    function: "show/hide help",
+  },
+];
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
-  <pop-up-card :show-pop-up="showHelp">
-    <template v-slot:title>
-      Title
-    </template>
-    <p>This is the help card</p>
-  </pop-up-card>
+  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>
 
-<style>
-</style>

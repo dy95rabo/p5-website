@@ -1,6 +1,8 @@
 <script setup>
-//https://www.google.com/search?client=firefox-b-d&q=game+of+life
-import { onBeforeUnmount } from 'vue';
+//https://www.google.com/search?client=firefox-b-d&q=game+of+lifeh
+import { onBeforeUnmount, ref } from "vue";
+import PopUpCard from "@/components/PopUpCard.vue";
+const showHelp = ref(false);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -175,7 +177,7 @@ const sketch = (p5) => {
 
   class BoardManager {
     constructor(squareSize = 17) {
-      Square.size = Math.max(8,squareSize);
+      Square.size = Math.max(8, squareSize);
       let numberOfSquaresInX = Math.floor(p5.width / Square.size) - 1;
       let numberOfSquaresInY = Math.floor(p5.height / Square.size) - 1;
       this.xShift = (p5.width - numberOfSquaresInX * Square.size) / 2;
@@ -360,19 +362,19 @@ const sketch = (p5) => {
       [1, 0, 0, 1, 0],
     ];
     mandala = [
-      [1,1,1],
-      [1,0,1],
-      [1,0,1],
-      [0,0,0],
-      [1,0,1],
-      [1,0,1],
-      [1,1,1],
+      [1, 1, 1],
+      [1, 0, 1],
+      [1, 0, 1],
+      [0, 0, 0],
+      [1, 0, 1],
+      [1, 0, 1],
+      [1, 1, 1],
     ];
-    f_pentomino =[
-      [0,1,1],
-      [1,1,0],
-      [0,1,0],
-    ] ;
+    f_pentomino = [
+      [0, 1, 1],
+      [1, 1, 0],
+      [0, 1, 0],
+    ];
 
     constructor(
       positionPercentageX = 0.5,
@@ -397,7 +399,6 @@ const sketch = (p5) => {
         this.smallSailer,
         this.mandala,
         this.f_pentomino,
-
       ];
       this.current = this.wheel[0];
     }
@@ -547,9 +548,9 @@ const sketch = (p5) => {
     }
   }
 
-  function isInCanvas(x,y){
-  return 0<=x && x<= p5.width && 0<=y && y<= p5.height
-}
+  function isInCanvas(x, y) {
+    return 0 <= x && x <= p5.width && 0 <= y && y <= p5.height;
+  }
 
   // ! ####################      CONSTANTS     #######################################
 
@@ -596,7 +597,7 @@ const sketch = (p5) => {
 
   p5.mousePressed = () => {
     // console.log("Way of Life -> clicked");
-    if(!isInCanvas(p5.mouseX, p5.mouseY)){
+    if (!isInCanvas(p5.mouseX, p5.mouseY)) {
       return;
     }
     if (tooltipManager.active) {
@@ -635,7 +636,7 @@ const sketch = (p5) => {
         insertManager.rotate();
         break;
       case 72: //"h"
-        tooltipManager.toggle();
+        showHelp.value = !showHelp.value;
         break;
       case 39: //Arrow Right
       case 68: //"d"
@@ -660,8 +661,20 @@ onBeforeUnmount(() => {
     p5Instance.remove();
   }
 });
+
+const keyInput = [
+  {
+    keys: "'h'",
+    function: "show/hide help",
+  },
+  {
+    keys: "'w'/'s', \n arrow-up/arrow-down",
+    function: "Select a predefined object to insert into the world",
+  },
+];
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent/>
+  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>

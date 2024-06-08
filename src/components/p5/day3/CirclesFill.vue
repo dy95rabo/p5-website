@@ -1,5 +1,7 @@
 <script setup>
-import { onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref } from "vue";
+import PopUpCard from "@/components/PopUpCard.vue";
+const showHelp = ref(false);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -205,22 +207,22 @@ const sketch = (p5) => {
       Circle.tryToCreateNewCircle(600);
       Circle.drawAll();
     }
-    if (CIRCLE_ARR.length <= 0) {
-      let x = p5.width / 2;
-      let y = p5.height / 2;
-      p5.push();
-      p5.fill(200);
-      p5.rectMode(p5.CENTER);
-      p5.rect(x, y, x, y);
-      p5.pop();
+    // if (CIRCLE_ARR.length <= 0) {
+      // let x = p5.width / 2;
+      // let y = p5.height / 2;
+      // p5.push();
+      // p5.fill(200);
+      // p5.rectMode(p5.CENTER);
+      // p5.rect(x, y, x, y);
+      // p5.pop();
       //Text
-      let textSize = Math.min(p5.width, p5.height) > 1000 ? 50 : 25;
-      p5.push();
-      p5.textSize(textSize);
-      p5.textAlign(p5.CENTER);
-      p5.text("Scroll up and down \n and see what happens", x, y);
-      p5.pop();
-    }
+      // let textSize = Math.min(p5.width, p5.height) > 1000 ? 50 : 25;
+      // p5.push();
+      // p5.textSize(textSize);
+      // p5.textAlign(p5.CENTER);
+      // p5.text("Scroll up and down \n and see what happens", x, y);
+      // p5.pop();
+    // }
   };
 
   // #########################     MOUSE PRESSED       #####################################
@@ -242,6 +244,34 @@ const sketch = (p5) => {
       Circle.drawAll();
     }
   };
+  p5.keyPressed = (event) => {
+    switch (event.keyCode) {
+      case 13: //Enter
+      case 32: //Space Bar
+        break;
+      case 38: //Arrow up
+      case 87: //"w"
+        break;
+      case 40: //Arrow down
+      case 83: //"s"
+        break;
+      case 82: //"r"
+        break;
+      case 72: //"h"
+        showHelp.value = !showHelp.value;
+        break;
+      case 39: //Arrow Right
+      case 68: //"d"
+        break;
+      case 37: //Arrow Right
+      case 65: //"a"
+        break;
+      case 27: //"ESC"
+        break;
+      default:
+        break;
+    }
+  };
 };
 
 // p5 instance Cleanup on unmount component
@@ -250,8 +280,20 @@ onBeforeUnmount(() => {
     p5Instance.remove();
   }
 });
+const keyInput = [
+  {
+    keys: "'h'",
+    function: "show/hide help",
+  },
+  {
+    keys: "'Mouse wheel up/down'",
+    function: "add/remove random circles to the canvas",
+  },
+];
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>
+

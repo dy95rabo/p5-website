@@ -1,6 +1,8 @@
 //Global variables
 <script setup>
-import { onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref } from "vue";
+import PopUpCard from "@/components/PopUpCard.vue";
+const showHelp = ref(false);
 let p5Instance = null;
 
 const sketch = (p5) => {
@@ -20,7 +22,7 @@ const sketch = (p5) => {
     p5.background(51);
     p5.resetMatrix();
     p5.translate(p5.width / 2, p5.height);
-    p5.stroke(255,50);
+    p5.stroke(255, 50);
     for (let i = 0; i < string.length; i++) {
       switch (string.charAt(i)) {
         case "F":
@@ -112,6 +114,7 @@ const sketch = (p5) => {
       case 82: //"r"
         break;
       case 72: //"h"
+        showHelp.value = !showHelp.value;
         break;
       case 39: //Arrow Right
       case 68: //"d"
@@ -122,10 +125,10 @@ const sketch = (p5) => {
       case 27: //"ESC"
         sentence = AXIOM;
         clickCounter = 0;
-        len = p5.height/3;
-        p5.clear()
+        len = p5.height / 3;
+        p5.clear();
         p5.background(51);
-        p5.translate(p5.width*0.5,p5.height)
+        p5.translate(p5.width * 0.5, p5.height);
         interpret(sentence);
         break;
       default:
@@ -140,8 +143,15 @@ onBeforeUnmount(() => {
     p5Instance.remove();
   }
 });
+const keyInput = [
+  {
+    keys: "'h'",
+    function: "show/hide help",
+  },
+];
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent/>
+  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>

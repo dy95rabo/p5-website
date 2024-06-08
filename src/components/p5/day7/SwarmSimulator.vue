@@ -1,6 +1,7 @@
-//Global variables
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount, ref } from "vue";
+import PopUpCard from "@/components/PopUpCard.vue";
+const showHelp = ref(false);
 let p5Instance = null;
 const sketch = (p5) => {
   p5Instance = p5;
@@ -47,6 +48,7 @@ const sketch = (p5) => {
       case 82: //"r"
         break;
       case 72: //"h"
+      showHelp.value = !showHelp.value;
         break;
       case 39: //Arrow Right
       case 68: //"d"
@@ -68,8 +70,16 @@ onBeforeUnmount(() => {
     p5Instance.remove();
   }
 });
+const keyInput = [
+  {
+    keys: "'h'",
+    function: "show/hide help",
+  },
+];
 </script>
 
 <template>
-  <P5 :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <P5 style="overflow: hidden; height: 100dvh;" :sketch="sketch" @wheel.prevent @touchmove.prevent @scroll.prevent />
+  <pop-up-card :show-pop-up="showHelp" :key-input="keyInput"></pop-up-card>
 </template>
+
