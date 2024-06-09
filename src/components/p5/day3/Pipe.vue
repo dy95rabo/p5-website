@@ -8,7 +8,7 @@ const sketch = (p5) => {
   p5Instance = p5;
 
   const AMOUNT_OF_POINTS = 5;
-  const STEP_SIZE = 2;
+  // const STEP_SIZE = 2;
   const INIT_RADIUS = 150;
   const MOUSE_ATTRACTION = 0.02;
   const ANGEL_SPACING = (2 * Math.PI) / AMOUNT_OF_POINTS;

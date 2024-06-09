@@ -8,9 +8,10 @@ const sketch = (p5) => {
   const lastMode = 1;
   let mode = 0;
   let bg = p5.color(0, 0, 0, 40);
-
+  let c = p5.color(255,255,255,255);
   let p1;
   let p2;
+  let stroke = 4;
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.background(0);
@@ -20,21 +21,22 @@ const sketch = (p5) => {
 
   p5.draw = () => {
     p5.background(bg);
-    p5.strokeWeight(4);
-    p5.stroke(p5.random(360), 100, 100);
     switch (mode) {
       case 0:
+        c = p5.color(p5.random(360), 100, 100)
         p1 = p5.createVector(p5.width / 2, p5.height / 2);
         p2 = p5.createVector(p5.random(0, p5.width), p5.random(0, p5.height));
         break;
       case 1:
+        c = p5.color(c._getHue()+1.5,100,100);
         p1 = p2;
         p2 = p5.createVector(p5.random(0, p5.width), p5.random(0, p5.height));
         break;
       default:
         break;
     }
-
+    p5.strokeWeight(stroke);
+    p5.stroke(c);
     p5.line(p1.x, p1.y, p2.x, p2.y);
   };
 

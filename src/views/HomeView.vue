@@ -26,8 +26,8 @@ onMounted(() => {
     if (visitForFirstTime.value) {
       sessionStorage.setItem("visitedAlready", true);
       visitForFirstTime.value = false;
-      return;
     }
+    showHelp.value = false;
   });
 });
 </script>
