@@ -157,8 +157,9 @@ const sketch = (p5) => {
       case 38: //Arrow up
       case 87: //"w"
         break;
-      case 40: //Arrow down
+      // case 40: //Arrow down
       case 83: //"s"
+      p5.saveCanvas("Kaleidoscope","png");
         break;
       case 82: //"r"
         break;
@@ -220,6 +221,10 @@ const keyInput = [
   {
     keys: "'ESC'",
     function: "clean canvas",
+  },
+  {
+    keys: "'s'",
+    function: "Save the current canvas as .png",
   },
 ];
 </script>

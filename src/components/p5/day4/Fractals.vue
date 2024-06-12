@@ -142,8 +142,9 @@ const sketch = (p5) => {
       case 38: //Arrow up
       case 87: //"w"
         break;
-      case 40: //Arrow down
+      // case 40: //Arrow down
       case 83: //"s"
+      p5.saveCanvas("TreeGenerator", "png")
         break;
       case 82: //"r"
         break;
@@ -184,6 +185,10 @@ const keyInput = [
   {
     keys: "'click'",
     function: "generate a new random tree (depending on the screen size this can be slow)",
+  },
+  {
+    keys: "'s'",
+    function: "Save the current canvas as .png",
   },
 ];
 </script>
