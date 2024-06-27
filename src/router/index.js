@@ -157,6 +157,34 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/extra",
+      meta: {
+        hideNavbar: true,
+       },
+      children: [
+        {
+          path: "01-prime-spiral",
+          component: () => import("../components/p5/extra/PrimeSpiral.vue"),
+        },
+        {
+          path: "02-ascii-picture-generator",
+          component: () => import("../components/p5/extra/AsciiPictureGenerator.vue"),
+        },
+        // {
+        //   path: "03-starwars-hyperspace",
+        //   component: () => import("../components/p5/day7/StarWarsHyperspace.vue"),
+        // },
+        // {
+        //   path: "04-swarm-simulator",
+        //   component: () => import("../components/p5/day7/SwarmSimulator.vue"),
+        // },
+        // {
+        //   path: "05-kaleidoscope",
+        //   component: () => import("../components/p5/day7/Kaleidoscope.vue"),
+        // },
+      ],
+    },
   ],
 });
 

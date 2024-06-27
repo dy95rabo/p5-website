@@ -164,13 +164,13 @@ export default {
               description:
                 "Generate a Colorful version of the Mandelbrot Set or a variation of Julia Sets",
             },
-            // {
-            //   title: "Sorting Algorithms",
-            //   path: "/02-sorting-algorithms",
-            //   headline: "Work In progress",
-            //   description:
-            //     "please don't knock on the glass, it scares the developer",
-            // },
+            {
+              title: "Sorting Algorithms",
+              path: "/02-sorting-algorithms",
+              headline: "Sorting Algorithm",
+              description:
+                "Visualization of (different) Sorting Algorithms",
+            },
             {
               title: "StarWars Hyperspace",
               path: "/03-starwars-hyperspace",
@@ -192,6 +192,47 @@ export default {
               description:
                 "Create your own mandalas using this Kaleidoscope",
             },
+          ],
+        },
+        {
+          headline: "Extra",
+          routePrefix: "/extra",
+          subRoutes: [
+            {
+              title: "Prime spiral",
+              path: "/01-prime-spiral",
+              headline: "Prime spiral",
+              description:
+                "A prime spiral, also called a Ulam-Spiral",
+            },
+            {
+              title: "AsciiPictureGenerator",
+              path: "/02-ascii-picture-generator",
+              headline: "Ascii Picture Generator",
+              description:
+                "Transforms a normal Image into a black and white ASCII version",
+            },
+            // {
+            //   title: "StarWars Hyperspace",
+            //   path: "/03-starwars-hyperspace",
+            //   headline: "StarWars hyperspace simulation",
+            //   description:
+            //     "Experience the thrill of interstellar travel",
+            // },
+            // {
+            //   title: "Swarm Simulator",
+            //   path: "/04-swarm-simulator",
+            //   headline: "Work In progress",
+            //   description:
+            //     "please don't knock on the glass, it scares the developer",
+            // },
+            // {
+            //   title: "Kaleidoscope",
+            //   path: "/05-kaleidoscope",
+            //   headline: "Kaleidoscope",
+            //   description:
+            //     "Create your own mandalas using this Kaleidoscope",
+            // },
           ],
         },
       ],
