@@ -12,6 +12,7 @@ const sketch = (p5) => {
   let imgCopy;
   let outputString = "";
   const resizePixelWidth = 250;
+  let counterFileUploadAttempts = 0;
   p5.preload = () => {
     img = p5.loadImage("../../src/assets/Cute-cartoon-cat.png");
     // imgCopy = p5.loadImage("../../src/assets/Cute-cartoon-cat.png");
@@ -96,6 +97,18 @@ const sketch = (p5) => {
         navigator.clipboard.writeText(outputString);
         alert("Copied to clipboard");
         break;
+      case 85: //"u"
+        counterFileUploadAttempts++;
+        if(counterFileUploadAttempts <2){
+          alert("File upload not yet implemented");
+        }else if(counterFileUploadAttempts <4){
+          alert(`Surely it will work now. What about "File upload not yet implemented" do you not understand?`);
+        }else if(counterFileUploadAttempts <5){
+          alert("Do you know the definition of insanity?");
+        }else{
+          alert(`'Insanity is doing the same thing over and over again and expecting different results.' - Albert Einstein`)
+        }
+        break;
       case 27: //"ESC"
         break;
       default:
@@ -118,6 +131,10 @@ const keyInput = [
   {
     keys: "'c'",
     function: "Copy the ASCII text to clipboard",
+  },
+  {
+    keys: "'u'",
+    function: "Upload one of your images to be transformed into ASCII art (NOT YET IMPLEMENTED)",
   },
 ];
 </script>
